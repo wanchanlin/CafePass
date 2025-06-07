@@ -50,7 +50,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         <br>
         <button type="submit">Register</button>
     </form>
-    <a href="../index.php">Back to Login</a>
+    <a href="../login.php">Back to Login</a>
 </section>
 </body>
 </html>

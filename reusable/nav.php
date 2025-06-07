@@ -2,6 +2,8 @@
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
+
+// Get the current page name for active state
 ?>
 <nav id="navbar">
     <div><a href="../index.php"><img style="width: 200px;" src="../images/logo.svg" alt="Logo"></a></div>
