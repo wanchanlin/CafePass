@@ -7,11 +7,14 @@
     <title>Cafe Pass</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.0.4/dist/tailwind.min.css" rel="stylesheet">
     <link rel="stylesheet" href="styles/cafe.css">
+
+
 </head>
 
 <body>
-    <?php include('reusable/nav.php'); ?>
-
+    <!-- nav section -->
+   <?php include('reusable/nav.php'); ?>
+    <!-- nav section end -->
     <!-- hero section -->
     <div class="bg-white">
         <div class="mx-auto max-w-7xl sm:px-6  lg:px-8">
@@ -326,7 +329,9 @@
         </div>
     </section>
 
-    <?php include('reusable/footer.php'); ?>
+   <?php include('reusable/footer.php'); ?>
+
+   
 
     <script>
         // Mobile menu toggle

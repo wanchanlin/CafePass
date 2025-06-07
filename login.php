@@ -42,7 +42,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         <link rel="stylesheet" href="styles/cafe.css">
 </head>
 <body>
-    <?php include('reusable/header.php'); ?>
+    <?php include('reusable/nav.php'); ?>
    
     <h1 class="text-3xl font-bold text-center mb-8">Login</h1>
     <section class="login-form">
