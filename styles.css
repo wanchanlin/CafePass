@@ -1,6 +1,6 @@
 /* Global Styles */ 
 :root {
-    --primary-green: #2E7D32!important;
+    --primary-green: #EEEDBE;
     --secondary-green: #1B5E20;
     --earth-brown: #6D4C41;
     --sky-blue: #64B5F6;
@@ -285,6 +285,7 @@ table tr:hover {
 
 /* Footer */
 footer {
+    background-color: var(--primary-green);
     margin: auto;
     width: 96%;
     border-top: #1B5E20 3px solid;

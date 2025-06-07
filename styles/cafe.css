@@ -1,0 +1,20 @@
+:root {
+    --primary-green: #EEEDBE;
+    --secondary-green: #1B5E20;
+    --earth-brown: #6D4C41;
+    --sky-blue: #64B5F6;
+    --cream: #F1F8E9;
+    --dark-text: #212121;
+    --light-text: #FAFAFA;
+}
+nav {
+    border-bottom: 2px solid var(--primary-green); 
+}
+button {
+    background-color: var(--primary-green);
+    color: var(--dark-text);
+}
+footer {
+    background-color: var(--primary-green);
+}
+
