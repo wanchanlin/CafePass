@@ -26,3 +26,6 @@ button {
 footer {
   background-color: var(--primary-green);
 }
+.bg-primary-green{
+    background-color: var(--primary-green);
+}
