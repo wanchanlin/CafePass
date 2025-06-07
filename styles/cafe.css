@@ -2,7 +2,7 @@
 
 :root {
   --primary-green: #eeedbe;
-  --secondary-green: #1b5e20;
+  --secondary-green: #29842f;
   --earth-brown: #6d4c41;
   --sky-blue: #64b5f6;
   --cream: #f1f8e9;
@@ -16,6 +16,7 @@ h1,h2,h3,h4,h5,h6 {
   color: var(--dark-text);
 }
 
+
 nav {
   border-bottom: 2px solid var(--primary-green);
 }
@@ -28,4 +29,7 @@ footer {
 }
 .bg-primary-green{
     background-color: var(--primary-green);
+}
+.text-green{
+    color: var(--secondary-green);
 }
