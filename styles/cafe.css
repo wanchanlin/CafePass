@@ -13,7 +13,7 @@ h1,h2,h3,h4,h5,h6 {
     font-family: "Cantata One", serif;
     font-weight: 400;
     font-style: normal;
-  color: var(--dark-text);
+    color: var(--secondary-green);
 }
 
 
@@ -32,4 +32,76 @@ footer {
 }
 .text-green{
     color: var(--secondary-green);
+}
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(-10px);
+    }
+}
+
+@keyframes fadeOut {
+    from {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    to {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+}
+
+.animate-fadeIn {
+    animation: fadeIn 0.3s ease-in-out forwards;
+}
+
+.animate-fadeOut {
+    animation: fadeOut 0.3s ease-in-out forwards;
+}
+
+/* Hamburger menu animation styles */
+.menu-bar {
+    transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
+    transform-origin: center;
+}
+
+/* When menu is open */
+[aria-expanded="true"] .top-bar {
+    transform: translateY(6px) rotate(45deg);
+}
+
+[aria-expanded="true"] .middle-bar {
+    opacity: 0;
+    transform: translateX(-20px);
+}
+
+[aria-expanded="true"] .bottom-bar {
+    transform: translateY(-3px) rotate(-45deg);
+}
+
+/* Adjust the SVG container */
+.hamburger-container {
+    position: relative;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Adjust the SVG */
+.hamburger-svg {
+    width: 24px;
+    height: 24px;
+    stroke-width: 2;
+}
+
+/* Adjust the paths */
+.menu-bar {
+    stroke-width: 2;
+    stroke-linecap: round;
 }
