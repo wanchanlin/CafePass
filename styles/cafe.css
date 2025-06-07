@@ -1,20 +1,28 @@
+@import url('https://fonts.googleapis.com/css2?family=Cantata+One&display=swap');
+
 :root {
-    --primary-green: #EEEDBE;
-    --secondary-green: #1B5E20;
-    --earth-brown: #6D4C41;
-    --sky-blue: #64B5F6;
-    --cream: #F1F8E9;
-    --dark-text: #212121;
-    --light-text: #FAFAFA;
+  --primary-green: #eeedbe;
+  --secondary-green: #1b5e20;
+  --earth-brown: #6d4c41;
+  --sky-blue: #64b5f6;
+  --cream: #f1f8e9;
+  --dark-text: #212121;
+  --light-text: #fafafa;
 }
-nav {
-    border-bottom: 2px solid var(--primary-green); 
-}
-button {
-    background-color: var(--primary-green);
-    color: var(--dark-text);
-}
-footer {
-    background-color: var(--primary-green);
+h1,h2,h3,h4,h5,h6 {
+    font-family: "Cantata One", serif;
+    font-weight: 400;
+    font-style: normal;
+  color: var(--dark-text);
 }
 
+nav {
+  border-bottom: 2px solid var(--primary-green);
+}
+button {
+  background-color: var(--primary-green);
+  color: var(--dark-text);
+}
+footer {
+  background-color: var(--primary-green);
+}
