@@ -31,9 +31,18 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $_SESSION['error'] = "Invalid email or password!";
     }
 }
-
-include('reusable/header.php');
 ?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Coffee Pass</title>
+    <link rel="stylesheet" href="styles/cafe.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body>
+<?php include('reusable/nav.php'); ?>
 
 <div class="container mx-auto px-4 py-8">
     <div class="max-w-md mx-auto bg-white rounded-lg shadow-md p-6">
@@ -79,3 +88,5 @@ include('reusable/header.php');
 </div>
 
 <?php include('reusable/footer.php'); ?>
+</body>
+</html>
