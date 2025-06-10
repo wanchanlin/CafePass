@@ -1,7 +1,7 @@
 <?php
 session_start();
 if (!isset($_SESSION['id']) || $_SESSION['is_admin'] !== 'Yes') {
-    header("Location: ../index.php");
+    header("Location: ../login.php");
     exit();
 }
 

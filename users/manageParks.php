@@ -101,12 +101,13 @@ if (isset($_GET['delete_id'])) {
     <title>Manage Parks</title>
    
         <link rel="stylesheet" href="../styles.css">
+        <link rel="stylesheet" href="../styles/cafe.css">
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 
 </head>
 
 <body>
-<?php include('../reusable/nav.php'); ?>
+<?php include('../reusable/dashboardNav.php'); ?>
 <section class="container-fluid "> 
 <h2>Manage Parks</h2>
     

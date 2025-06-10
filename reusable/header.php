@@ -1,3 +1,8 @@
+<?php
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -5,15 +10,25 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Coffee Pass</title>
     <!-- Tailwind CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.0.4/dist/tailwind.min.css" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Custom Tailwind Configuration -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'primary-green': '#4CAF50',
+                        'secondary-green': '#45a049',
+                        'dark-text': '#1F2937',
+                    }
+                }
+            }
+        }
+    </script>
     <!-- Custom CSS -->
-    <link rel="stylesheet" href="styles/cafe.css">
+    <link rel="stylesheet" href="/capstone/CoffeePass/styles/cafe.css">
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
-<body>
-<?php
-if (session_status() === PHP_SESSION_NONE) {
-    session_start();
-}
-?> 
+<body class="bg-gray-50">
+    <?php include('nav.php'); ?> 

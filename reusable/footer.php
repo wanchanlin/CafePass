@@ -3,7 +3,7 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 ?>
-<footer class="rounded-lg dark:bg-gray-800">
+<footer class="rounded-lg ">
     <div class="w-full mx-auto max-w-screen-xl p-4 md:flex md:items-center md:justify-between">
         <img src="images/Logo.svg" alt="Coffee Pass">
         <span class="text-sm text-gray-500 sm:text-center dark:text-gray-400">© 2025 <a href="#"
