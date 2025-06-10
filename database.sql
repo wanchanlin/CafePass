@@ -15,6 +15,7 @@ CREATE TABLE `users` (
   `email` varchar(255) NOT NULL,
   `password` varchar(255) NOT NULL,
   `is_admin` tinyint(1) NOT NULL DEFAULT 0,
+  `qr_code` varchar(255) DEFAULT NULL,
   `dateAdded` datetime NOT NULL DEFAULT current_timestamp(),
   PRIMARY KEY (`id`),
   UNIQUE KEY `email` (`email`)

@@ -2,7 +2,7 @@
 // index.php - Login Page
 session_start();
 if (isset($_SESSION['id'])) {
-    header("Location: " . ($_SESSION['is_admin'] === 'Yes' ? 'admin/adminDashboard.php' : 'users/manageParks.php'));
+    header("Location: " . ($_SESSION['is_admin'] === 'Yes' ? 'admin/adminDashboard.php' : 'users/userDashboard.php'));
     exit();
 }
 include('reusable/connection.php');

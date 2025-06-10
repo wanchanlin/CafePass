@@ -16,11 +16,11 @@ if (session_status() === PHP_SESSION_NONE) {
                 <div class="hidden sm:ml-6 sm:block">
                     <div class="flex space-x-4">
                         <?php if (isset($_SESSION['id'])): // Only for logged-in users ?>
-                            <a href="/capstone/CoffeePass/users/manageParks.php" 
+                            <a href="/capstone/CoffeePass/users/userDashboard.php" 
                                class="rounded-md px-3 py-2 text-sm font-medium text-gray-900 hover:bg-gray-700 hover:text-white transition duration-150 ease-in-out">
                                Dashboard
                             </a>
-                            <a href="/capstone/CoffeePass/users/manageAccount.php" 
+                            <a href="/capstone/CoffeePass/users/showQR.php" 
                                class="rounded-md px-3 py-2 text-sm font-medium text-gray-900 hover:bg-gray-700 hover:text-white transition duration-150 ease-in-out">
                                Show QR Code
                             </a>
@@ -33,18 +33,18 @@ if (session_status() === PHP_SESSION_NONE) {
                                class="rounded-md px-3 py-2 text-sm font-medium text-gray-900 hover:bg-gray-700 hover:text-white transition duration-150 ease-in-out">
                                Review Stores           
                             </a>
-                            <a href="" 
+                            <a href="/capstone/CoffeePass/users/visited.php" 
                                class="rounded-md px-3 py-2 text-sm font-medium text-gray-900 hover:bg-gray-700 hover:text-white transition duration-150 ease-in-out">
                                Visited           
                             </a>
-                            <a href="" 
+                            <a href="/capstone/CoffeePass/users/wishList.php" 
                                class="rounded-md px-3 py-2 text-sm font-medium text-gray-900 hover:bg-gray-700 hover:text-white transition duration-150 ease-in-out">
                                Wish List          
                             </a>
                            
-                            <a href="" 
+                            <a href="/capstone/CoffeePass/users/events.php" 
                                class="rounded-md px-3 py-2 text-sm font-medium text-gray-900 hover:bg-gray-700 hover:text-white transition duration-150 ease-in-out">
-                               events        
+                               Events        
                             </a>
 
 
