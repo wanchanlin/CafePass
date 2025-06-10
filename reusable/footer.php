@@ -3,25 +3,33 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 ?>
-<footer class="rounded-lg ">
-    <div class="w-full mx-auto max-w-screen-xl p-4 md:flex md:items-center md:justify-between">
-        <img src="images/Logo.svg" alt="Coffee Pass">
-        <span class="text-sm text-gray-500 sm:text-center dark:text-gray-400">© 2025 <a href="#"
-                class="hover:underline">CafePass™</a>. All Rights Reserved.
-        </span>
-        <ul class="flex flex-wrap items-center mt-3 gap-2 text-sm font-medium text-gray-500 dark:text-gray-400 sm:mt-0">
-            <li>
-                <a href="#" class="hover:underline me-4 md:me-6">About</a>
-            </li>
-            <li>
-                <a href="#" class="hover:underline me-4 md:me-6">Privacy Policy</a>
-            </li>
-            <li>
-                <a href="#" class="hover:underline me-4 md:me-6">Licensing</a>
-            </li>
-            <li>
-                <a href="#" class="hover:underline">Contact</a>
-            </li>
-        </ul>
+<footer class="bg-white shadow-md mt-8">
+    <div class="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
+        <div class="flex flex-col items-center justify-between space-y-4 sm:flex-row sm:space-y-0">
+            <div class="flex items-center">
+                <a href="/capstone/CoffeePass/index.php">
+                    <img class="h-[360px] w-auto object-contain" src="/capstone/CoffeePass/images/Logo.svg" alt="Coffee Pass">
+                </a>
+            </div>
+            <div class="flex space-x-6">
+                <a href="#" class="text-gray-500 hover:text-gray-900">
+                    <span class="sr-only">Facebook</span>
+                    <i class="fab fa-facebook"></i>
+                </a>
+                <a href="#" class="text-gray-500 hover:text-gray-900">
+                    <span class="sr-only">Instagram</span>
+                    <i class="fab fa-instagram"></i>
+                </a>
+                <a href="#" class="text-gray-500 hover:text-gray-900">
+                    <span class="sr-only">Twitter</span>
+                    <i class="fab fa-twitter"></i>
+                </a>
+            </div>
+        </div>
+        <div class="mt-8 border-t border-gray-200 pt-8">
+            <p class="text-center text-base text-gray-500">
+                &copy; 2024 Coffee Pass. All rights reserved.
+            </p>
+        </div>
     </div>
 </footer>
