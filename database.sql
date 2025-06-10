@@ -1,33 +1,14 @@
--- phpMyAdmin SQL Dump
--- version 5.2.1
--- https://www.phpmyadmin.net/
---
--- Host: 127.0.0.1
--- Generation Time: Mar 09, 2025 at 01:55 AM
--- Server version: 10.4.32-MariaDB
--- PHP Version: 8.2.12
+-- Drop existing tables if they exist
+DROP TABLE IF EXISTS `event_registrations`;
+DROP TABLE IF EXISTS `events`;
+DROP TABLE IF EXISTS `reviews`;
+DROP TABLE IF EXISTS `wishlist`;
+DROP TABLE IF EXISTS `user_visits`;
+DROP TABLE IF EXISTS `cafes`;
+DROP TABLE IF EXISTS `users`;
 
-SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-START TRANSACTION;
-SET time_zone = "+00:00";
-
-
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8mb4 */;
-
---
--- Database: `parks`
---
-
--- --------------------------------------------------------
-
---
--- Table structure for table `users`
---
-
-CREATE TABLE IF NOT EXISTS `users` (
+-- Create users table
+CREATE TABLE `users` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `first` varchar(255) NOT NULL,
   `last` varchar(255) NOT NULL,
@@ -39,11 +20,8 @@ CREATE TABLE IF NOT EXISTS `users` (
   UNIQUE KEY `email` (`email`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Table structure for table `cafes`
---
-
-CREATE TABLE IF NOT EXISTS `cafes` (
+-- Create cafes table
+CREATE TABLE `cafes` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL,
   `address` varchar(255) NOT NULL,
@@ -54,11 +32,8 @@ CREATE TABLE IF NOT EXISTS `cafes` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Table structure for table `user_visits`
---
-
-CREATE TABLE IF NOT EXISTS `user_visits` (
+-- Create user_visits table
+CREATE TABLE `user_visits` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `user_id` int(11) NOT NULL,
   `cafe_id` int(11) NOT NULL,
@@ -71,11 +46,8 @@ CREATE TABLE IF NOT EXISTS `user_visits` (
   CONSTRAINT `user_visits_ibfk_2` FOREIGN KEY (`cafe_id`) REFERENCES `cafes` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Table structure for table `wishlist`
---
-
-CREATE TABLE IF NOT EXISTS `wishlist` (
+-- Create wishlist table
+CREATE TABLE `wishlist` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `user_id` int(11) NOT NULL,
   `cafe_id` int(11) NOT NULL,
@@ -87,11 +59,8 @@ CREATE TABLE IF NOT EXISTS `wishlist` (
   CONSTRAINT `wishlist_ibfk_2` FOREIGN KEY (`cafe_id`) REFERENCES `cafes` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Table structure for table `reviews`
---
-
-CREATE TABLE IF NOT EXISTS `reviews` (
+-- Create reviews table
+CREATE TABLE `reviews` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `user_id` int(11) NOT NULL,
   `cafe_id` int(11) NOT NULL,
@@ -105,11 +74,8 @@ CREATE TABLE IF NOT EXISTS `reviews` (
   CONSTRAINT `reviews_ibfk_2` FOREIGN KEY (`cafe_id`) REFERENCES `cafes` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Table structure for table `events`
---
-
-CREATE TABLE IF NOT EXISTS `events` (
+-- Create events table
+CREATE TABLE `events` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `cafe_id` int(11) NOT NULL,
   `title` varchar(255) NOT NULL,
@@ -121,11 +87,8 @@ CREATE TABLE IF NOT EXISTS `events` (
   CONSTRAINT `events_ibfk_1` FOREIGN KEY (`cafe_id`) REFERENCES `cafes` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Table structure for table `event_registrations`
---
-
-CREATE TABLE IF NOT EXISTS `event_registrations` (
+-- Create event_registrations table
+CREATE TABLE `event_registrations` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `user_id` int(11) NOT NULL,
   `event_id` int(11) NOT NULL,
@@ -137,110 +100,41 @@ CREATE TABLE IF NOT EXISTS `event_registrations` (
   CONSTRAINT `event_registrations_ibfk_2` FOREIGN KEY (`event_id`) REFERENCES `events` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Dumping data for table `users`
---
-
+-- Insert sample users
 INSERT INTO `users` (`first`, `last`, `email`, `password`, `is_admin`, `dateAdded`) VALUES
 ('John', 'Doe', 'john@example.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 1, '2024-01-01 00:00:00'),
 ('Jane', 'Smith', 'jane@example.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 0, '2024-01-02 00:00:00'),
 ('Admin', 'User', 'admin@example.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 1, '2024-01-03 00:00:00');
 
---
--- Indexes for dumped tables
---
+-- Insert sample cafes
+INSERT INTO `cafes` (`name`, `address`, `description`, `image_path`, `rating`) VALUES
+('Coffee Haven', '123 Main St, City', 'A cozy coffee shop with a great atmosphere', 'images/cafes/coffee-haven.jpg', 4.5),
+('Brew & Bean', '456 Oak Ave, Town', 'Specialty coffee and fresh pastries', 'images/cafes/brew-bean.jpg', 4.2),
+('Cafe Delight', '789 Pine Rd, Village', 'Modern cafe with outdoor seating', 'images/cafes/cafe-delight.jpg', 4.0);
 
---
--- Indexes for table `users`
---
-ALTER TABLE `users`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `email` (`email`);
+-- Insert sample user visits
+INSERT INTO `user_visits` (`user_id`, `cafe_id`, `points_earned`) VALUES
+(1, 1, 10),
+(1, 2, 10),
+(2, 1, 10),
+(2, 3, 10);
 
---
--- Indexes for table `cafes`
---
-ALTER TABLE `cafes`
-  ADD PRIMARY KEY (`id`);
+-- Insert sample reviews
+INSERT INTO `reviews` (`user_id`, `cafe_id`, `rating`, `comment`) VALUES
+(1, 1, 5, 'Great coffee and friendly staff!'),
+(1, 2, 4, 'Nice atmosphere, good pastries.'),
+(2, 1, 5, 'My favorite coffee shop in town!'),
+(2, 3, 4, 'Good coffee, comfortable seating.');
 
---
--- Indexes for table `user_visits`
---
-ALTER TABLE `user_visits`
-  ADD PRIMARY KEY (`id`);
+-- Insert sample events
+INSERT INTO `events` (`cafe_id`, `title`, `description`, `event_date`) VALUES
+(1, 'Coffee Tasting', 'Join us for a special coffee tasting event', '2024-04-01 14:00:00'),
+(2, 'Barista Workshop', 'Learn the art of coffee making', '2024-04-15 15:00:00'),
+(3, 'Live Music Night', 'Enjoy live music with your coffee', '2024-04-20 19:00:00');
 
---
--- Indexes for table `wishlist`
---
-ALTER TABLE `wishlist`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `reviews`
---
-ALTER TABLE `reviews`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `events`
---
-ALTER TABLE `events`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `event_registrations`
---
-ALTER TABLE `event_registrations`
-  ADD PRIMARY KEY (`id`);
-
---
--- AUTO_INCREMENT for dumped tables
---
-
---
--- AUTO_INCREMENT for table `users`
---
-ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
-
---
--- AUTO_INCREMENT for table `cafes`
---
-ALTER TABLE `cafes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `user_visits`
---
-ALTER TABLE `user_visits`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `wishlist`
---
-ALTER TABLE `wishlist`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `reviews`
---
-ALTER TABLE `reviews`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `events`
---
-ALTER TABLE `events`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `event_registrations`
---
-ALTER TABLE `event_registrations`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
-COMMIT;
-
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+-- Insert sample event registrations
+INSERT INTO `event_registrations` (`user_id`, `event_id`) VALUES
+(1, 1),
+(1, 2),
+(2, 1),
+(2, 3); 

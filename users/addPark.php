@@ -48,7 +48,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $stmt = $connect->prepare($query);
     $stmt->bind_param("sssiss", $park_name, $park_type, $region, $date_founded, $description, $imagePath);
 
-
     // Insert park details into ecological table
     if ($stmt->execute()) {
         $eco_query = "INSERT INTO ecological (ParkName, EcosystemType, IntegrityStatus, IntegrityTrend) VALUES (?, ?, ?, ?)";
@@ -67,66 +66,121 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Add Park</title>
-    <link rel="stylesheet" href="../styles.css">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Park - Cafe Pass</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.0.4/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../styles/cafe.css">
 </head>
-<body>
-    <?php include('../reusable/nav.php'); ?>
-    <section class="container-fluid ">
-    <h2>Add a New Park</h2>
-    <form method="POST" action="addPark.php">
-        <label>Park Name:</label>
-        <input type="text" name="park_name" required>
+<body class="bg-gray-50">
+    <?php include('../reusable/userDbNav.php'); ?>
+    
+    <div class="min-h-screen py-12 px-4 sm:px-6 lg:px-8">
+        <div class="max-w-3xl mx-auto">
+            <div class="bg-white shadow-sm rounded-lg p-8">
+                <h2 class="text-3xl font-semibold text-gray-900 mb-8 text-center">Add a New Park</h2>
+                
+                <form method="POST" action="addPark.php" enctype="multipart/form-data" class="space-y-6">
+                    <div class="grid grid-cols-1 gap-6 sm:grid-cols-2">
+                        <!-- Park Name -->
+                        <div class="col-span-2">
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Park Name</label>
+                            <input type="text" name="park_name" required
+                                class="w-full rounded-md border-gray-300 shadow-sm focus:border-gray-500 focus:ring-gray-500">
+                        </div>
 
-        <label>Type:</label>
-        <select name="park_type" required>
-            <?php foreach ($park_types as $type): ?>
-                <option value="<?= htmlspecialchars($type) ?>"><?= htmlspecialchars($type) ?></option>
-            <?php endforeach; ?>
-        </select>
+                        <!-- Park Type -->
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Type</label>
+                            <select name="park_type" required
+                                class="w-full rounded-md border-gray-300 shadow-sm focus:border-gray-500 focus:ring-gray-500">
+                                <?php foreach ($park_types as $type): ?>
+                                    <option value="<?= htmlspecialchars($type) ?>"><?= htmlspecialchars($type) ?></option>
+                                <?php endforeach; ?>
+                            </select>
+                        </div>
 
-        <label>Region:</label>
-        <select name="region" required>
-            <?php foreach ($regions as $region): ?>
-                <option value="<?= htmlspecialchars($region) ?>"><?= htmlspecialchars($region) ?></option>
-            <?php endforeach; ?>
-        </select>
+                        <!-- Region -->
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Region</label>
+                            <select name="region" required
+                                class="w-full rounded-md border-gray-300 shadow-sm focus:border-gray-500 focus:ring-gray-500">
+                                <?php foreach ($regions as $region): ?>
+                                    <option value="<?= htmlspecialchars($region) ?>"><?= htmlspecialchars($region) ?></option>
+                                <?php endforeach; ?>
+                            </select>
+                        </div>
 
-        <label>Date Founded:</label>
-        <input type="number" name="date_founded" min="1700" max="<?= date('Y'); ?>" required>
+                        <!-- Date Founded -->
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Date Founded</label>
+                            <input type="number" name="date_founded" min="1700" max="<?= date('Y'); ?>" required
+                                class="w-full rounded-md border-gray-300 shadow-sm focus:border-gray-500 focus:ring-gray-500">
+                        </div>
 
-        <label>Description:</label>
-        <textarea name="description" required></textarea>
+                        <!-- Description -->
+                        <div class="col-span-2">
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Description</label>
+                            <textarea name="description" required rows="4"
+                                class="w-full rounded-md border-gray-300 shadow-sm focus:border-gray-500 focus:ring-gray-500"></textarea>
+                        </div>
 
-        <label>Ecosystem Type:</label>
-        <select name="ecosystem_type" required>
-            <?php foreach ($ecosystem_types as $ecosystem): ?>
-                <option value="<?= htmlspecialchars($ecosystem) ?>"><?= htmlspecialchars($ecosystem) ?></option>
-            <?php endforeach; ?>
-        </select>
+                        <!-- Ecosystem Type -->
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Ecosystem Type</label>
+                            <select name="ecosystem_type" required
+                                class="w-full rounded-md border-gray-300 shadow-sm focus:border-gray-500 focus:ring-gray-500">
+                                <?php foreach ($ecosystem_types as $ecosystem): ?>
+                                    <option value="<?= htmlspecialchars($ecosystem) ?>"><?= htmlspecialchars($ecosystem) ?></option>
+                                <?php endforeach; ?>
+                            </select>
+                        </div>
 
-        <label>Ecological Integrity Status:</label>
-        <select name="integrity_status" required>
-            <?php foreach ($integrity_statuses as $status): ?>
-                <option value="<?= htmlspecialchars($status) ?>"><?= htmlspecialchars($status) ?></option>
-            <?php endforeach; ?>
-        </select>
+                        <!-- Integrity Status -->
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Ecological Integrity Status</label>
+                            <select name="integrity_status" required
+                                class="w-full rounded-md border-gray-300 shadow-sm focus:border-gray-500 focus:ring-gray-500">
+                                <?php foreach ($integrity_statuses as $status): ?>
+                                    <option value="<?= htmlspecialchars($status) ?>"><?= htmlspecialchars($status) ?></option>
+                                <?php endforeach; ?>
+                            </select>
+                        </div>
 
-        <label>Ecological Integrity Trend:</label>
-        <select name="integrity_trend" required>
-            <?php foreach ($integrity_trends as $trend): ?>
-                <option value="<?= htmlspecialchars($trend) ?>"><?= htmlspecialchars($trend) ?></option>
-            <?php endforeach; ?>
-        </select>
+                        <!-- Integrity Trend -->
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Ecological Integrity Trend</label>
+                            <select name="integrity_trend" required
+                                class="w-full rounded-md border-gray-300 shadow-sm focus:border-gray-500 focus:ring-gray-500">
+                                <?php foreach ($integrity_trends as $trend): ?>
+                                    <option value="<?= htmlspecialchars($trend) ?>"><?= htmlspecialchars($trend) ?></option>
+                                <?php endforeach; ?>
+                            </select>
+                        </div>
 
-        <button type="submit">Add Park</button>
-    </form>
+                        <!-- Image Upload -->
+                        <div class="col-span-2">
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Park Image</label>
+                            <input type="file" name="image" accept="image/*"
+                                class="w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-medium file:bg-gray-50 file:text-gray-700 hover:file:bg-gray-100">
+                        </div>
+                    </div>
 
-    <a href="manageParks.php">Back to Manage Parks</a>
-    </section>
+                    <div class="flex justify-end space-x-4 mt-8">
+                        <a href="manageParks.php" 
+                           class="inline-flex justify-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2">
+                            Cancel
+                        </a>
+                        <button type="submit"
+                            class="inline-flex justify-center rounded-md border border-transparent bg-gray-800 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2">
+                            Add Park
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
     <?php include('../reusable/footer.php'); ?>
 </body>
 </html>

@@ -98,135 +98,184 @@ if (isset($_GET['delete_id'])) {
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Manage Parks</title>
-   
-        <link rel="stylesheet" href="../styles.css">
-        <link rel="stylesheet" href="../styles/cafe.css">
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Parks - Coffee Pass</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="../styles/cafe.css">
 </head>
 
-<body>
-<?php include('../reusable/dashboardNav.php'); ?>
-<section class="container-fluid "> 
-<h2>Manage Parks</h2>
-    
-    <p>Welcome, <?php echo htmlspecialchars($_SESSION['first'] . " " . $_SESSION['last']); ?>!</p>
-    <a href="addPark.php">Add New Park</a>
-    
+<body class="bg-gray-50">
+<?php include('../reusable/userDbNav.php'); ?>
 
-    <!-- filter form -->
-    <form method="GET">
-        <label>Park Name:</label>
-        <select name="park_name">
-            <option value="">All</option>
-            <?php foreach ($parkNames as $name) : ?>
-                <option value="<?= htmlspecialchars($name); ?>" <?= ($_GET['park_name'] ?? '') == $name ? 'selected' : ''; ?>>
-                    <?= htmlspecialchars($name); ?>
-                </option>
-            <?php endforeach; ?>
-        </select>
+<div class="container mx-auto px-4 py-8">
+    <div class="bg-white rounded-lg shadow-md p-6 mb-8">
+        <div class="flex justify-between items-center mb-6">
+            <div>
+                <h2 class="text-2xl font-bold text-gray-800">Manage Parks</h2>
+                <p class="text-gray-600 mt-1">Welcome, <?php echo htmlspecialchars($_SESSION['first'] . " " . $_SESSION['last']); ?>!</p>
+            </div>
+            <a href="addPark.php" class="bg-primary-green text-white px-4 py-2 rounded-md hover:bg-secondary-green transition-colors duration-200">
+                Add New Park
+            </a>
+        </div>
 
-        <label>Park Type:</label>
-        <select name="park_type">
-            <option value="">All</option>
-            <?php foreach ($parkTypes as $type) : ?>
-                <option value="<?= htmlspecialchars($type); ?>" <?= ($_GET['park_type'] ?? '') == $type ? 'selected' : ''; ?>>
-                    <?= htmlspecialchars($type); ?>
-                </option>
-            <?php endforeach; ?>
-        </select>
+        <!-- Filter Form -->
+        <form method="GET" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-8">
+            <div class="space-y-2">
+                <label class="block text-sm font-medium text-gray-700">Park Name</label>
+                <select name="park_name" class="w-full rounded-md border-gray-300 shadow-sm focus:border-primary-green focus:ring focus:ring-primary-green focus:ring-opacity-50">
+                    <option value="">All</option>
+                    <?php foreach ($parkNames as $name) : ?>
+                        <option value="<?= htmlspecialchars($name); ?>" <?= ($_GET['park_name'] ?? '') == $name ? 'selected' : ''; ?>>
+                            <?= htmlspecialchars($name); ?>
+                        </option>
+                    <?php endforeach; ?>
+                </select>
+            </div>
 
-        <label>Region:</label>
-        <select name="region">
-            <option value="">All</option>
-            <?php foreach ($regions as $region) : ?>
-                <option value="<?= htmlspecialchars($region); ?>" <?= ($_GET['region'] ?? '') == $region ? 'selected' : ''; ?>>
-                    <?= htmlspecialchars($region); ?>
-                </option>
-            <?php endforeach; ?>
-        </select>
+            <div class="space-y-2">
+                <label class="block text-sm font-medium text-gray-700">Park Type</label>
+                <select name="park_type" class="w-full rounded-md border-gray-300 shadow-sm focus:border-primary-green focus:ring focus:ring-primary-green focus:ring-opacity-50">
+                    <option value="">All</option>
+                    <?php foreach ($parkTypes as $type) : ?>
+                        <option value="<?= htmlspecialchars($type); ?>" <?= ($_GET['park_type'] ?? '') == $type ? 'selected' : ''; ?>>
+                            <?= htmlspecialchars($type); ?>
+                        </option>
+                    <?php endforeach; ?>
+                </select>
+            </div>
 
-        <label>Ecosystem Type:</label>
-        <select name="ecosystem_type">
-            <option value="">All</option>
-            <?php foreach ($ecosystemTypes as $type) : ?>
-                <option value="<?= htmlspecialchars($type); ?>" <?= ($_GET['ecosystem_type'] ?? '') == $type ? 'selected' : ''; ?>>
-                    <?= htmlspecialchars($type); ?>
-                </option>
-            <?php endforeach; ?>
-        </select>
+            <div class="space-y-2">
+                <label class="block text-sm font-medium text-gray-700">Region</label>
+                <select name="region" class="w-full rounded-md border-gray-300 shadow-sm focus:border-primary-green focus:ring focus:ring-primary-green focus:ring-opacity-50">
+                    <option value="">All</option>
+                    <?php foreach ($regions as $region) : ?>
+                        <option value="<?= htmlspecialchars($region); ?>" <?= ($_GET['region'] ?? '') == $region ? 'selected' : ''; ?>>
+                            <?= htmlspecialchars($region); ?>
+                        </option>
+                    <?php endforeach; ?>
+                </select>
+            </div>
 
-        <label>Ecological Integrity Status:</label>
-        <select name="integrity_status">
-            <option value="">All</option>
-            <?php foreach ($integrityStatuses as $status) : ?>
-                <option value="<?= htmlspecialchars($status); ?>" <?= ($_GET['integrity_status'] ?? '') == $status ? 'selected' : ''; ?>>
-                    <?= htmlspecialchars($status); ?>
-                </option>
-            <?php endforeach; ?>
-        </select>
+            <div class="space-y-2">
+                <label class="block text-sm font-medium text-gray-700">Ecosystem Type</label>
+                <select name="ecosystem_type" class="w-full rounded-md border-gray-300 shadow-sm focus:border-primary-green focus:ring focus:ring-primary-green focus:ring-opacity-50">
+                    <option value="">All</option>
+                    <?php foreach ($ecosystemTypes as $type) : ?>
+                        <option value="<?= htmlspecialchars($type); ?>" <?= ($_GET['ecosystem_type'] ?? '') == $type ? 'selected' : ''; ?>>
+                            <?= htmlspecialchars($type); ?>
+                        </option>
+                    <?php endforeach; ?>
+                </select>
+            </div>
 
-        <label>Ecological Integrity Trend:</label>
-        <select name="integrity_trend">
-            <option value="">All</option>
-            <?php foreach ($integrityTrends as $trend) : ?>
-                <option value="<?= htmlspecialchars($trend); ?>" <?= ($_GET['integrity_trend'] ?? '') == $trend ? 'selected' : ''; ?>>
-                    <?= htmlspecialchars($trend); ?>
-                </option>
-            <?php endforeach; ?>
-        </select>
+            <div class="space-y-2">
+                <label class="block text-sm font-medium text-gray-700">Integrity Status</label>
+                <select name="integrity_status" class="w-full rounded-md border-gray-300 shadow-sm focus:border-primary-green focus:ring focus:ring-primary-green focus:ring-opacity-50">
+                    <option value="">All</option>
+                    <?php foreach ($integrityStatuses as $status) : ?>
+                        <option value="<?= htmlspecialchars($status); ?>" <?= ($_GET['integrity_status'] ?? '') == $status ? 'selected' : ''; ?>>
+                            <?= htmlspecialchars($status); ?>
+                        </option>
+                    <?php endforeach; ?>
+                </select>
+            </div>
 
-        <button type="submit">Filter</button>
-    </form>
+            <div class="space-y-2">
+                <label class="block text-sm font-medium text-gray-700">Integrity Trend</label>
+                <select name="integrity_trend" class="w-full rounded-md border-gray-300 shadow-sm focus:border-primary-green focus:ring focus:ring-primary-green focus:ring-opacity-50">
+                    <option value="">All</option>
+                    <?php foreach ($integrityTrends as $trend) : ?>
+                        <option value="<?= htmlspecialchars($trend); ?>" <?= ($_GET['integrity_trend'] ?? '') == $trend ? 'selected' : ''; ?>>
+                            <?= htmlspecialchars($trend); ?>
+                        </option>
+                    <?php endforeach; ?>
+                </select>
+            </div>
 
-    <!-- Display Park List -->
-    <?php if ($result->num_rows > 0): ?>
-        <table>
-            <tr>
-                <th>Image</th>
-                <th>Park Name</th>
-                <th>Type</th>
-                <th>Region</th>
-                <th>Date Founded</th>
-                <th>Description</th>
-                <th>Ecosystem Type</th>
-                <th>Integrity Status</th>
-                <th>Integrity Trend</th>
-                <th>Actions</th>
-            </tr>
-            <?php while ($row = $result->fetch_assoc()): ?>
-                <tr>
-                    <td>
-                    <img src="<?= htmlspecialchars('../' . ltrim($row['ImagePath'], '/')); ?>" class="thumbnail" alt="<?= htmlspecialchars($row['ParkName']); ?>" width="100">
+            <div class="md:col-span-2 lg:col-span-3 flex justify-end">
+                <button type="submit" class="bg-primary-green text-white px-6 py-2 rounded-md hover:bg-secondary-green transition-colors duration-200">
+                    Apply Filters
+                </button>
+            </div>
+        </form>
 
-                    </td>
-                    <td><?php echo htmlspecialchars($row['ParkName']); ?></td>
-                    <td><?php echo htmlspecialchars($row['ParkType']); ?></td>
-                    <td><?php echo htmlspecialchars($row['Region']); ?></td>
-                    <td><?php echo htmlspecialchars($row['DateFounded']); ?></td>
-                    <td><?php echo htmlspecialchars($row['Description']); ?></td>
-                    <td><?php echo htmlspecialchars($row['EcosystemType'] ?: 'N/A'); ?></td>
-                    <td><?php echo htmlspecialchars($row['IntegrityStatus'] ?: 'N/A'); ?></td>
-                    <td><?php echo htmlspecialchars($row['IntegrityTrend'] ?: 'N/A'); ?></td>
-                    <td>
-                        <a href="updatePark.php?id=<?php echo $row['ID']; ?>">Edit</a> | 
-                        <a href="deletePark.php?id=<?php echo urlencode($row['ID']); ?>" 
-                        onclick="return confirm('Are you sure you want to delete this park?');">Delete</a>
+        <!-- Parks Table -->
+        <?php if ($result->num_rows > 0): ?>
+            <div class="overflow-x-auto">
+                <table class="min-w-full divide-y divide-gray-200">
+                    <thead class="bg-gray-50">
+                        <tr>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Image</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Park Name</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Type</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Region</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date Founded</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Description</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Ecosystem</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Trend</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody class="bg-white divide-y divide-gray-200">
+                        <?php while ($row = $result->fetch_assoc()): ?>
+                            <tr class="hover:bg-gray-50">
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <img src="<?= htmlspecialchars('../' . ltrim($row['ImagePath'], '/')); ?>" 
+                                         class="h-16 w-16 object-cover rounded-lg" 
+                                         alt="<?= htmlspecialchars($row['ParkName']); ?>">
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                                    <?php echo htmlspecialchars($row['ParkName']); ?>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                    <?php echo htmlspecialchars($row['ParkType']); ?>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                    <?php echo htmlspecialchars($row['Region']); ?>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                    <?php echo htmlspecialchars($row['DateFounded']); ?>
+                                </td>
+                                <td class="px-6 py-4 text-sm text-gray-500 max-w-xs truncate">
+                                    <?php echo htmlspecialchars($row['Description']); ?>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                    <?php echo htmlspecialchars($row['EcosystemType'] ?: 'N/A'); ?>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                    <?php echo htmlspecialchars($row['IntegrityStatus'] ?: 'N/A'); ?>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                    <?php echo htmlspecialchars($row['IntegrityTrend'] ?: 'N/A'); ?>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                                    <a href="updatePark.php?id=<?php echo $row['ID']; ?>" 
+                                       class="text-primary-green hover:text-secondary-green mr-3">Edit</a>
+                                    <a href="deletePark.php?id=<?php echo urlencode($row['ID']); ?>" 
+                                       onclick="return confirm('Are you sure you want to delete this park?');"
+                                       class="text-red-600 hover:text-red-900">Delete</a>
+                                </td>
+                            </tr>
+                        <?php endwhile; ?>
+                    </tbody>
+                </table>
+            </div>
+        <?php else: ?>
+            <div class="text-center py-8">
+                <p class="text-gray-500 text-lg">No parks found.</p>
+            </div>
+        <?php endif; ?>
+    </div>
+</div>
 
-                    </td>
-                </tr>
-            <?php endwhile; ?>
-        </table>
-    <?php else: ?>
-        <p>No parks found.</p>
-    <?php endif; ?>
-<section>
 <?php include('../reusable/footer.php'); ?>
-</body>
-</html>
 
 <?php
 $stmt->close();
 $connect->close();
 ?>
+</body>
+</html>

@@ -23,7 +23,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
 }
 
-include('../reusable/header.php');
+include('../reusable/nav.php');
 ?>
 
 <div class="container mx-auto px-4 py-8">
