@@ -7,6 +7,7 @@
     <title>Cafe Pass</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.0.4/dist/tailwind.min.css" rel="stylesheet">
     <link rel="stylesheet" href="styles/cafe.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
 
 </head>
@@ -53,7 +54,9 @@
                     <p class=" mx-auto text-dark-text bg-primary-green
                             font-medium relative rounded-full block text-sm px-5 py-2.5 text-center me-2 mb-2 ">
                         STEP 1</p>
-                    <img class="w-60 mx-auto" src="images/image.svg" alt="">
+                    <div class="w-60 h-60 mx-auto flex items-center justify-center mb-4">
+                        <i class="fas fa-map-marker-alt text-6xl text-green-600"></i>
+                    </div>
                     <h5 class="ml-3 text-slate-800 text-xl font-semibold">Find a Café</h5>
                     <p class="block text-slate-600 leading-normal font-light mb-4">
                         Browse a curated map of indie coffee shops near you.
@@ -63,7 +66,9 @@
                     <p class=" mx-auto text-dark-text bg-primary-green
                             font-medium relative rounded-full block text-sm px-5 py-2.5 text-center me-2 mb-2 ">
                         STEP 2</p>
-                    <img class="w-60 mx-auto" src="images/image.svg" alt="">
+                    <div class="w-60 h-60 mx-auto flex items-center justify-center mb-4">
+                        <i class="fas fa-qrcode text-6xl text-green-600"></i>
+                    </div>
                     <h5 class="ml-3 text-slate-800 text-xl font-semibold">Check In</h5>
                     <p class="block text-slate-600 leading-normal font-light mb-4">
                         Scan the café's QR code or get your physical Coffee Pass stamped. </p>
@@ -72,7 +77,9 @@
                     <p class=" mx-auto text-dark-text bg-primary-green
                         font-medium relative rounded-full block text-sm px-5 py-2.5 text-center me-2 mb-2 ">
                         STEP 3</p>
-                    <img class="w-60 mx-auto" src="images/image.svg" alt="">
+                    <div class="w-60 h-60 mx-auto flex items-center justify-center mb-4">
+                        <i class="fas fa-gift text-6xl text-green-600"></i>
+                    </div>
                     <h5 class="ml-3 text-slate-800 text-xl font-semibold">Collect Rewards</h5>
                     <p class="block text-slate-600 leading-normal font-light mb-4">
                         Earn points, unlock secret menu items, and redeem free drinks! </p>
@@ -87,16 +94,19 @@
           <ul role="list" class="mx-auto grid max-w-7xl grid gap-x-8 gap-y-12 sm:grid-cols-2 sm:gap-y-16 xl:col-span-2  my-10">
             <li>
               <div class="flex items-center gap-x-6">
-                <img class=" rounded-full w-20" src="images/avatar.jpg" alt="">
+                <div class="w-20 h-20 rounded-full bg-green-100 flex items-center justify-center">
+                    <i class="fas fa-store text-3xl text-green-600"></i>
+                </div>
                 <div>
-                  
                   <p class="text-sm/6 font-semibold text-gray-900">Support local, independent cafés</p>
                 </div>
               </div>
             </li>
              <li>
               <div class="flex items-center gap-x-6">
-                <img class=" rounded-full w-20" src="images/avatar.jpg" alt="">
+                <div class="w-20 h-20 rounded-full bg-green-100 flex items-center justify-center">
+                    <i class="fas fa-mug-hot text-3xl text-green-600"></i>
+                </div>
                 <div>
                   <p class="text-sm/6 font-semibold "> Discover each café's signature drink</p>
                 </div>
@@ -104,7 +114,9 @@
             </li>
             <li>
                 <div class="flex items-center gap-x-6">
-                  <img class=" rounded-full w-20" src="images/avatar.jpg" alt="">
+                  <div class="w-20 h-20 rounded-full bg-green-100 flex items-center justify-center">
+                    <i class="fas fa-stamp text-3xl text-green-600"></i>
+                  </div>
                   <div>
                     <p class="text-sm/6 font-semibold "> Collect digital stamps & real rewards</p>
                   </div>
@@ -112,7 +124,9 @@
               </li>
               <li>
                 <div class="flex items-center gap-x-6">
-                  <img class=" rounded-full w-20" src="images/avatar.jpg" alt="">
+                  <div class="w-20 h-20 rounded-full bg-green-100 flex items-center justify-center">
+                    <i class="fas fa-book-open text-3xl text-green-600"></i>
+                  </div>
                   <div>
                     <p class="text-sm/6 font-semibold "> Log your coffee journey in your Brew Log</p>
                   </div>

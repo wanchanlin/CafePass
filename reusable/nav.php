@@ -5,6 +5,9 @@ if (session_status() === PHP_SESSION_NONE) {
 
 // Get the current page name for active state
 $current_page = basename($_SERVER['PHP_SELF']);
+
+// Define base path
+$base_path = '/capstone/CoffeePass';
 ?>
 <!-- nav section -->
     <nav class="bg-white shadow-md">
@@ -12,20 +15,22 @@ $current_page = basename($_SERVER['PHP_SELF']);
             <div class="relative flex h-16 items-center justify-between">
                 <div class="flex flex-1 items-center justify-between sm:items-stretch sm:justify-start">
                     <div class="flex shrink-0 items-center">
-                        <a href="/capstone/CoffeePass/index.php">
-                            <img class="h-[360px] w-auto object-contain" src="/capstone/CoffeePass/images/Logo.svg" alt="Coffee Pass">
+                        <a href="<?php echo $base_path; ?>/index.php">
+                            <img class="h-[360px] w-auto object-contain" src="<?php echo $base_path; ?>/images/Logo.svg" alt="Coffee Pass">
                         </a>
                     </div>
                     <div class="hidden sm:ml-6 sm:block">
                         <div class="flex space-x-4">
-                            <a href="/capstone/CoffeePass/index.php" 
+                            <a href="<?php echo $base_path; ?>/index.php" 
                                class="rounded-md px-3 py-2 text-sm font-medium text-gray-900 hover:bg-gray-700 hover:text-white <?php echo $current_page === 'index.php' ? 'bg-gray-700 text-white' : ''; ?>">
                                 HOME
                             </a>
-                            <a href="#" class="rounded-md px-3 py-2 text-sm font-medium text-gray-900 hover:bg-gray-700 hover:text-white">
+                            <a href="<?php echo $base_path; ?>/explore-cafes.php" 
+                               class="rounded-md px-3 py-2 text-sm font-medium text-gray-900 hover:bg-gray-700 hover:text-white <?php echo $current_page === 'explore-cafes.php' ? 'bg-gray-700 text-white' : ''; ?>">
                                 Explore Cafés
                             </a>
-                            <a href="#" class="rounded-md px-3 py-2 text-sm font-medium text-gray-900 hover:bg-gray-700 hover:text-white">
+                            <a href="<?php echo $base_path; ?>/how-it-works.php" 
+                               class="rounded-md px-3 py-2 text-sm font-medium text-gray-900 hover:bg-gray-700 hover:text-white <?php echo $current_page === 'how-it-works.php' ? 'bg-gray-700 text-white' : ''; ?>">
                                 How It Works
                             </a>
                         </div>
@@ -33,12 +38,14 @@ $current_page = basename($_SERVER['PHP_SELF']);
                 </div>
                 <div class="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
                     <div class="hidden sm:flex sm:space-x-4">
-                        <button class="rounded-md px-3 py-2 text-sm font-medium text-gray-900 hover:bg-gray-700 hover:text-white">
-                            <a href="/capstone/CoffeePass/public/login.php"> Login </a>
-                        </button>
-                        <button class="rounded-md px-3 py-2 text-sm font-medium text-gray-900 hover:bg-gray-700 hover:text-white"> 
-                            <a href="/capstone/CoffeePass/public/register.php"> Sign Up </a> 
-                        </button>
+                        <a href="<?php echo $base_path; ?>/public/login.php" 
+                           class="rounded-md px-3 py-2 text-sm font-medium text-gray-900 hover:bg-gray-700 hover:text-white">
+                            Login
+                        </a>
+                        <a href="<?php echo $base_path; ?>/public/register.php" 
+                           class="rounded-md px-3 py-2 text-sm font-medium text-gray-900 hover:bg-gray-700 hover:text-white">
+                            Sign Up
+                        </a>
                     </div>
                     <!-- Mobile menu button -->
                     <button type="button"
@@ -64,21 +71,23 @@ $current_page = basename($_SERVER['PHP_SELF']);
         <!-- Mobile menu, show/hide based on menu state. -->
         <div class="hidden sm:hidden" id="mobile-menu">
             <div class="space-y-1 px-2 pt-2 pb-3">
-                <a href="/capstone/CoffeePass/index.php" 
+                <a href="<?php echo $base_path; ?>/index.php" 
                    class="block rounded-md px-3 py-2 text-base font-medium text-gray-900 hover:bg-gray-700 hover:text-white">
                     HOME
                 </a>
-                <a href="#" class="block rounded-md px-3 py-2 text-base font-medium text-gray-900 hover:bg-gray-700 hover:text-white">
+                <a href="<?php echo $base_path; ?>/explore-cafes.php" 
+                   class="block rounded-md px-3 py-2 text-base font-medium text-gray-900 hover:bg-gray-700 hover:text-white">
                     Explore Cafés
                 </a>
-                <a href="#" class="block rounded-md px-3 py-2 text-base font-medium text-gray-900 hover:bg-gray-700 hover:text-white">
+                <a href="<?php echo $base_path; ?>/how-it-works.php" 
+                   class="block rounded-md px-3 py-2 text-base font-medium text-gray-900 hover:bg-gray-700 hover:text-white">
                     How It Works
                 </a>
-                <a href="/capstone/CoffeePass/login.php" 
+                <a href="<?php echo $base_path; ?>/public/login.php" 
                    class="block rounded-md px-3 py-2 text-base font-medium text-gray-900 hover:bg-gray-700 hover:text-white">
                     Login
                 </a>
-                <a href="/capstone/CoffeePass/public/register.php" 
+                <a href="<?php echo $base_path; ?>/public/register.php" 
                    class="block rounded-md px-3 py-2 text-base font-medium text-gray-900 hover:bg-gray-700 hover:text-white">
                     Sign Up
                 </a>

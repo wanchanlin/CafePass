@@ -2,6 +2,9 @@
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
+
+// Define base path
+$base_path = '/capstone/CoffeePass';
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -26,7 +29,7 @@ if (session_status() === PHP_SESSION_NONE) {
         }
     </script>
     <!-- Custom CSS -->
-    <link rel="stylesheet" href="/capstone/CoffeePass/styles/cafe.css">
+    <link rel="stylesheet" href="<?php echo $base_path; ?>/styles/cafe.css">
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>

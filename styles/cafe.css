@@ -105,3 +105,244 @@ footer {
     stroke-width: 2;
     stroke-linecap: round;
 }
+
+/* Café-specific styles */
+.cafe-hero {
+    background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('../images/coffeegathering.png');
+    background-size: cover;
+    background-position: center;
+    height: 60vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    text-align: center;
+}
+
+.cafe-hero-content {
+    max-width: 800px;
+    padding: 2rem;
+}
+
+.cafe-hero h1 {
+    font-size: 3.5rem;
+    margin-bottom: 1rem;
+    font-weight: bold;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.cafe-hero p {
+    font-size: 1.25rem;
+    margin-bottom: 2rem;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+/* Café Cards */
+.cafe-card {
+    background: white;
+    border-radius: 1rem;
+    overflow: hidden;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.cafe-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 12px rgba(0, 0, 0, 0.15);
+}
+
+.cafe-card img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+}
+
+.cafe-card-content {
+    padding: 1.5rem;
+}
+
+.cafe-card h3 {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+    color: #1B5E20;
+}
+
+.cafe-card p {
+    color: #666;
+    margin-bottom: 0.5rem;
+}
+
+.cafe-rating {
+    color: #FFD700;
+    font-size: 1.1rem;
+}
+
+/* Search Section */
+.cafe-search {
+    background-color: #EEEDBE;
+    padding: 3rem 1rem;
+}
+
+.search-container {
+    max-width: 600px;
+    margin: 0 auto;
+    display: flex;
+    gap: 1rem;
+}
+
+.search-input {
+    flex: 1;
+    padding: 0.8rem 1rem;
+    border: 2px solid #1B5E20;
+    border-radius: 0.5rem;
+    font-size: 1rem;
+    transition: border-color 0.3s ease;
+}
+
+.search-input:focus {
+    outline: none;
+    border-color: #4CAF50;
+}
+
+/* Categories Section */
+.cafe-categories {
+    padding: 4rem 1rem;
+}
+
+.category-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 2rem;
+    margin-top: 2rem;
+}
+
+.category-card {
+    background: white;
+    padding: 2rem;
+    border-radius: 1rem;
+    text-align: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+}
+
+.category-card:hover {
+    transform: translateY(-5px);
+}
+
+.category-card i {
+    font-size: 2.5rem;
+    color: #1B5E20;
+    margin-bottom: 1rem;
+}
+
+.category-card h3 {
+    font-size: 1.25rem;
+    font-weight: bold;
+    color: #333;
+}
+
+/* How It Works Section */
+.steps-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+    margin-top: 2rem;
+}
+
+.step-card {
+    background: white;
+    padding: 2rem;
+    border-radius: 1rem;
+    text-align: center;
+    position: relative;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.step-number {
+    position: absolute;
+    top: -20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #1B5E20;
+    color: white;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+
+.step-icon {
+    font-size: 2.5rem;
+    color: #1B5E20;
+    margin: 1rem 0;
+}
+
+/* Benefits Section */
+.benefits-section {
+    background-color: #EEEDBE;
+    padding: 4rem 1rem;
+}
+
+.benefits-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+    margin-top: 2rem;
+}
+
+.benefit-card {
+    background: white;
+    padding: 2rem;
+    border-radius: 1rem;
+    text-align: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.benefit-card i {
+    font-size: 2.5rem;
+    color: #1B5E20;
+    margin-bottom: 1rem;
+}
+
+/* CTA Section */
+.cta-section {
+    padding: 4rem 1rem;
+    text-align: center;
+}
+
+.cta-button {
+    display: inline-block;
+    padding: 1rem 2rem;
+    background-color: #1B5E20;
+    color: white;
+    border-radius: 0.5rem;
+    text-decoration: none;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+.cta-button:hover {
+    background-color: #2E7D32;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .cafe-hero h1 {
+        font-size: 2.5rem;
+    }
+
+    .search-container {
+        flex-direction: column;
+    }
+
+    .steps-container,
+    .benefits-grid,
+    .category-grid {
+        grid-template-columns: 1fr;
+    }
+}

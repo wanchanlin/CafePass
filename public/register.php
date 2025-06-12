@@ -68,7 +68,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         
         if ($stmt->execute()) {
             $_SESSION['success'] = "Registration successful! You can now log in.";
-            header("Location: ../login.php");
+            header("Location: login.php");
             exit();
         } else {
             $errors[] = "Registration failed. Please try again later.";

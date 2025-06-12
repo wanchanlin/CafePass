@@ -42,6 +42,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <title>Cafe Pass - Login</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.0.4/dist/tailwind.min.css" rel="stylesheet">
     <link rel="stylesheet" href="../styles/cafe.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body class="bg-gray-50">
     <?php include('../reusable/nav.php'); ?>
@@ -66,8 +67,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
                 <div>
                     <label for="password" class="block text-sm font-medium text-gray-700 mb-1">Password</label>
-                    <input type="password" id="password" name="password" required 
-                        class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-green focus:border-transparent">
+                    <div class="relative">
+                        <input type="password" id="password" name="password" required 
+                            class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-green focus:border-transparent">
+                        <button type="button" id="togglePassword" 
+                            class="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-600 hover:text-gray-800">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </div>
                 </div>
 
                 <div class="flex items-center justify-between pt-4">
@@ -90,5 +97,21 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     </div>
 
     <?php include('../reusable/footer.php'); ?>
+    <script>
+        document.getElementById('togglePassword').addEventListener('click', function() {
+            const passwordInput = document.getElementById('password');
+            const icon = this.querySelector('i');
+            
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                icon.classList.remove('fa-eye');
+                icon.classList.add('fa-eye-slash');
+            } else {
+                passwordInput.type = 'password';
+                icon.classList.remove('fa-eye-slash');
+                icon.classList.add('fa-eye');
+            }
+        });
+    </script>
 </body>
 </html>
