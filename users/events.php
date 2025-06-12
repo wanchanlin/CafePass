@@ -6,39 +6,23 @@ if (!isset($_SESSION['id'])) {
 }
 
 include('../reusable/connection.php');
+include('../reusable/functions.php');
 
-// Handle event registration/unregistration
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $event_id = $_POST['event_id'];
-    $user_id = $_SESSION['id'];
-    $action = $_POST['action'];
-
-    if ($action === 'register') {
-        $query = "INSERT INTO event_registrations (user_id, event_id) VALUES (?, ?)";
-        $stmt = $connect->prepare($query);
-        $stmt->bind_param("ii", $user_id, $event_id);
-        $stmt->execute();
-    } else if ($action === 'unregister') {
-        $query = "DELETE FROM event_registrations WHERE user_id = ? AND event_id = ?";
-        $stmt = $connect->prepare($query);
-        $stmt->bind_param("ii", $user_id, $event_id);
-        $stmt->execute();
-    }
-}
-
-// Get all upcoming events with registration status
+// Get user's total points
 $user_id = $_SESSION['id'];
-$query = "SELECT e.*, c.name as cafe_name, c.address, c.image_path,
-          CASE WHEN r.id IS NOT NULL THEN 1 ELSE 0 END as is_registered
+$points_query = "SELECT SUM(points_earned) as total_points FROM user_visits WHERE user_id = ?";
+$points_stmt = $connect->prepare($points_query);
+$points_stmt->bind_param("i", $user_id);
+$points_stmt->execute();
+$total_points = $points_stmt->get_result()->fetch_assoc()['total_points'] ?? 0;
+
+// Get all events
+$query = "SELECT e.*, c.name as cafe_name, c.address, c.image_path 
           FROM events e 
           INNER JOIN cafes c ON e.cafe_id = c.id 
-          LEFT JOIN event_registrations r ON e.id = r.event_id AND r.user_id = ?
-          WHERE e.event_date > NOW()
+          WHERE e.event_date >= CURDATE() 
           ORDER BY e.event_date ASC";
-$stmt = $connect->prepare($query);
-$stmt->bind_param("i", $user_id);
-$stmt->execute();
-$events = $stmt->get_result();
+$result = mysqli_query($connect, $query);
 ?>
 
 <!DOCTYPE html>
@@ -54,76 +38,74 @@ $events = $stmt->get_result();
     <?php include('../reusable/userDbNav.php'); ?>
     
     <div class="min-h-screen py-12 px-4 sm:px-6 lg:px-8">
-        <div class="max-w-7xl mx-auto">
-            <!-- Header -->
-            <div class="bg-white shadow-sm rounded-lg p-6 mb-8">
-                <div class="flex items-center justify-between">
-                    <div>
-                        <h2 class="text-2xl font-semibold text-gray-900">Upcoming Events</h2>
-                        <p class="mt-1 text-sm text-gray-500">Discover and join exciting coffee events near you</p>
+        <div class="max-w-7xl mx-auto gap-4 flex flex-row">
+            <!-- Sidebar -->
+            <?php include('../reusable/userSidebar.php'); ?>
+            
+            <div>
+                <!-- Points Summary -->
+                <div class="bg-white shadow-sm rounded-lg p-6 mb-8">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <h2 class="text-2xl font-semibold text-gray-900">Upcoming Events</h2>
+                            <p class="mt-1 text-sm text-gray-500">Discover coffee events and workshops near you</p>
+                        </div>
+                        <div class="text-right">
+                            <p class="text-sm text-gray-500">Total Points</p>
+                            <p class="text-3xl font-bold text-gray-900"><?php echo number_format($total_points); ?></p>
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <!-- Events Grid -->
-            <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-                <?php if (mysqli_num_rows($events) > 0): ?>
-                    <?php while ($event = mysqli_fetch_assoc($events)): ?>
+                <!-- Events List -->
+                <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+                    <?php while ($event = mysqli_fetch_assoc($result)): ?>
                         <div class="bg-white shadow-sm rounded-lg overflow-hidden">
-                            <div class="aspect-w-16 aspect-h-9">
+                            <div class="relative h-48">
                                 <img src="<?php echo htmlspecialchars($event['image_path']); ?>" 
                                      alt="<?php echo htmlspecialchars($event['title']); ?>"
-                                     class="w-full h-48 object-cover">
+                                     class="w-full h-full object-cover">
+                                <div class="absolute top-4 right-4">
+                                    <div class="bg-white bg-opacity-90 rounded-full px-3 py-1">
+                                        <p class="text-sm font-medium text-gray-900">
+                                            <?php echo date('M d, Y', strtotime($event['event_date'])); ?>
+                                        </p>
+                                    </div>
+                                </div>
                             </div>
                             <div class="p-6">
-                                <div class="flex items-center justify-between">
-                                    <h3 class="text-lg font-semibold text-gray-900">
-                                        <?php echo htmlspecialchars($event['title']); ?>
-                                    </h3>
-                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium <?php echo $event['is_registered'] ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800'; ?>">
-                                        <?php echo $event['is_registered'] ? 'Registered' : 'Open'; ?>
-                                    </span>
-                                </div>
-                                <p class="mt-2 text-sm text-gray-600">
+                                <h3 class="text-lg font-medium text-gray-900">
+                                    <?php echo htmlspecialchars($event['title']); ?>
+                                </h3>
+                                <p class="mt-1 text-sm text-gray-500">
                                     <?php echo htmlspecialchars($event['cafe_name']); ?>
                                 </p>
-                                <p class="text-sm text-gray-500">
+                                <p class="mt-1 text-sm text-gray-500">
                                     <?php echo htmlspecialchars($event['address']); ?>
                                 </p>
-                                <div class="mt-4">
-                                    <p class="text-sm text-gray-600">
-                                        <?php echo date('M d, Y h:i A', strtotime($event['event_date'])); ?>
-                                    </p>
-                                    <p class="mt-2 text-sm text-gray-600">
-                                        <?php echo nl2br(htmlspecialchars($event['description'])); ?>
-                                    </p>
-                                </div>
-                                <div class="mt-6">
-                                    <?php if ($event['is_registered']): ?>
-                                        <form method="POST" action="" class="inline">
-                                            <input type="hidden" name="event_id" value="<?php echo $event['id']; ?>">
-                                            <input type="hidden" name="action" value="unregister">
-                                            <button type="submit"
-                                                    class="w-full inline-flex justify-center items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500">
-                                                Unregister
-                                            </button>
-                                        </form>
-                                    <?php else: ?>
-                                        <form method="POST" action="" class="inline">
-                                            <input type="hidden" name="event_id" value="<?php echo $event['id']; ?>">
-                                            <input type="hidden" name="action" value="register">
-                                            <button type="submit"
-                                                    class="w-full inline-flex justify-center items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-gray-800 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500">
-                                                Register Now
-                                            </button>
-                                        </form>
-                                    <?php endif; ?>
+                                <p class="mt-2 text-sm text-gray-600">
+                                    <?php echo htmlspecialchars($event['description']); ?>
+                                </p>
+                                <div class="mt-4 flex justify-between items-center">
+                                    <div class="text-sm text-gray-500">
+                                        <p>Time: <?php echo date('g:i A', strtotime($event['event_time'])); ?></p>
+                                        <p>Price: $<?php echo number_format($event['price'], 2); ?></p>
+                                    </div>
+                                    <form method="POST" action="registerEvent.php" class="inline">
+                                        <input type="hidden" name="event_id" value="<?php echo $event['id']; ?>">
+                                        <button type="submit" 
+                                                class="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-gray-800 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500">
+                                            Register
+                                        </button>
+                                    </form>
                                 </div>
                             </div>
                         </div>
                     <?php endwhile; ?>
-                <?php else: ?>
-                    <div class="col-span-full text-center py-12">
+                </div>
+
+                <?php if (mysqli_num_rows($result) === 0): ?>
+                    <div class="text-center py-12">
                         <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
                         </svg>

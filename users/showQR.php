@@ -6,9 +6,17 @@ if (!isset($_SESSION['id'])) {
 }
 
 include('../reusable/connection.php');
+include('../reusable/functions.php');
+
+// Get user's total points
+$user_id = $_SESSION['id'];
+$points_query = "SELECT SUM(points_earned) as total_points FROM user_visits WHERE user_id = ?";
+$points_stmt = $connect->prepare($points_query);
+$points_stmt->bind_param("i", $user_id);
+$points_stmt->execute();
+$total_points = $points_stmt->get_result()->fetch_assoc()['total_points'] ?? 0;
 
 // Get user's QR code
-$user_id = $_SESSION['id'];
 $query = "SELECT qr_code FROM users WHERE id = ?";
 $stmt = $connect->prepare($query);
 $stmt->bind_param("i", $user_id);
@@ -61,64 +69,101 @@ $recent_checkins = $checkins_stmt->get_result();
     <?php include('../reusable/userDbNav.php'); ?>
     
     <div class="min-h-screen py-12 px-4 sm:px-6 lg:px-8">
-        <div class="max-w-7xl mx-auto">
-            <div class="md:grid md:grid-cols-3 md:gap-6">
-                <!-- QR Code Section -->
-                <div class="md:col-span-1">
-                    <div class="bg-white shadow-sm rounded-lg p-6">
-                        <h3 class="text-lg font-medium text-gray-900 mb-4">My QR Code</h3>
-                        <div class="flex flex-col items-center">
-                            <div id="qrcode" class="p-4 bg-white rounded-lg shadow-sm mb-4"></div>
-                            <p class="text-sm text-gray-500 text-center mb-4">
-                                Show this QR code to cafe staff to check in and earn points
-                            </p>
-                            <button onclick="downloadQR()" 
-                                    class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-gray-800 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500">
-                                Download QR Code
-                            </button>
+        <div class="max-w-7xl mx-auto gap-4 flex flex-row">
+            <!-- Sidebar -->
+            <?php include('../reusable/userSidebar.php'); ?>
+            
+            <div>
+                <!-- Points Summary -->
+                <div class="bg-white shadow-sm rounded-lg p-6 mb-8">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <h2 class="text-2xl font-semibold text-gray-900">My QR Code</h2>
+                            <p class="mt-1 text-sm text-gray-500">Show this QR code to earn points at cafes</p>
+                        </div>
+                        <div class="text-right">
+                            <p class="text-sm text-gray-500">Total Points</p>
+                            <p class="text-3xl font-bold text-gray-900"><?php echo number_format($total_points); ?></p>
                         </div>
                     </div>
                 </div>
 
-                <!-- Recent Check-ins -->
-                <div class="mt-8 md:mt-0 md:col-span-2">
-                    <div class="bg-white shadow-sm rounded-lg">
-                        <div class="px-6 py-4 border-b border-gray-200">
-                            <h3 class="text-lg font-medium text-gray-900">Recent Check-ins</h3>
-                        </div>
-                        <div class="divide-y divide-gray-200">
-                            <?php if (mysqli_num_rows($recent_checkins) > 0): ?>
-                                <?php while ($checkin = mysqli_fetch_assoc($recent_checkins)): ?>
-                                    <div class="p-6">
-                                        <div class="flex items-center justify-between">
-                                            <div>
-                                                <h4 class="text-sm font-medium text-gray-900">
-                                                    <?php echo htmlspecialchars($checkin['cafe_name']); ?>
-                                                </h4>
-                                                <p class="text-sm text-gray-500">
-                                                    <?php echo htmlspecialchars($checkin['address']); ?>
-                                                </p>
-                                                <p class="mt-1 text-sm text-gray-600">
-                                                    Checked in on <?php echo date('M d, Y h:i A', strtotime($checkin['visit_date'])); ?>
-                                                </p>
-                                            </div>
-                                            <div class="text-right">
-                                                <p class="text-sm font-medium text-gray-900">
-                                                    <?php echo $checkin['points_earned']; ?> points earned
-                                                </p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                <?php endwhile; ?>
+                <!-- QR Code Section -->
+                <div class="bg-white shadow-sm rounded-lg overflow-hidden">
+                    <div class="p-6">
+                        <div class="max-w-md mx-auto text-center">
+                            <?php if ($user['qr_code']): ?>
+                                <div class="bg-white p-4 rounded-lg shadow-sm inline-block">
+                                    <img src="<?php echo htmlspecialchars($user['qr_code']); ?>" 
+                                         alt="User QR Code"
+                                         class="w-64 h-64">
+                                </div>
+                                <p class="mt-4 text-sm text-gray-500">
+                                    Show this QR code to cafe staff to earn points for your visit.
+                                </p>
+                                <div class="mt-6">
+                                    <a href="<?php echo htmlspecialchars($user['qr_code']); ?>" 
+                                       download="cafe-pass-qr.png"
+                                       class="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-gray-800 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500">
+                                        Download QR Code
+                                    </a>
+                                </div>
                             <?php else: ?>
-                                <div class="p-6 text-center">
+                                <div class="text-center py-12">
                                     <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v1m6 11h2m-6 0h-2v4m0-11v4m0 0h.01M12 12h4.01M16 20h4M4 12h4m12 0h.01M5 8h2a1 1 0 001-1V5a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1zm12 0h2a1 1 0 001-1V5a1 1 0 00-1-1h-2a1 1 0 00-1 1v2a1 1 0 001 1zM5 20h2a1 1 0 001-1v-2a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1z" />
                                     </svg>
-                                    <h3 class="mt-2 text-sm font-medium text-gray-900">No check-ins yet</h3>
-                                    <p class="mt-1 text-sm text-gray-500">Visit a cafe and show your QR code to check in.</p>
+                                    <h3 class="mt-2 text-sm font-medium text-gray-900">No QR Code Available</h3>
+                                    <p class="mt-1 text-sm text-gray-500">Please contact support to get your QR code.</p>
                                 </div>
                             <?php endif; ?>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Instructions -->
+                <div class="mt-8 bg-white shadow-sm rounded-lg overflow-hidden">
+                    <div class="px-6 py-4 border-b border-gray-200">
+                        <h3 class="text-lg font-medium text-gray-900">How to Use Your QR Code</h3>
+                    </div>
+                    <div class="p-6">
+                        <div class="space-y-4">
+                            <div class="flex items-start">
+                                <div class="flex-shrink-0">
+                                    <svg class="h-6 w-6 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+                                    </svg>
+                                </div>
+                                <div class="ml-3">
+                                    <p class="text-sm text-gray-700">
+                                        Visit any participating cafe and show your QR code to the staff.
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="flex items-start">
+                                <div class="flex-shrink-0">
+                                    <svg class="h-6 w-6 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                    </svg>
+                                </div>
+                                <div class="ml-3">
+                                    <p class="text-sm text-gray-700">
+                                        Staff will scan your code and add points to your account.
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="flex items-start">
+                                <div class="flex-shrink-0">
+                                    <svg class="h-6 w-6 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                    </svg>
+                                </div>
+                                <div class="ml-3">
+                                    <p class="text-sm text-gray-700">
+                                        Points will be automatically added to your total.
+                                    </p>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

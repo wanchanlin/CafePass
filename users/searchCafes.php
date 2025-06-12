@@ -6,27 +6,19 @@ if (!isset($_SESSION['id'])) {
 }
 
 include('../reusable/connection.php');
+include('../reusable/functions.php');
 
-// Search functionality
-$search = isset($_GET['search']) ? mysqli_real_escape_string($connect, $_GET['search']) : '';
-$where_clause = '';
-if (!empty($search)) {
-    $where_clause = "WHERE name LIKE '%$search%' OR address LIKE '%$search%' OR description LIKE '%$search%'";
-}
+// Get user's total points
+$user_id = $_SESSION['id'];
+$points_query = "SELECT SUM(points_earned) as total_points FROM user_visits WHERE user_id = ?";
+$points_stmt = $connect->prepare($points_query);
+$points_stmt->bind_param("i", $user_id);
+$points_stmt->execute();
+$total_points = $points_stmt->get_result()->fetch_assoc()['total_points'] ?? 0;
 
-// Get cafes with pagination
-$items_per_page = 9;
-$page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
-$offset = ($page - 1) * $items_per_page;
-
-$query = "SELECT * FROM cafes $where_clause ORDER BY rating DESC LIMIT $offset, $items_per_page";
+// Get all cafes
+$query = "SELECT * FROM cafes ORDER BY name";
 $result = mysqli_query($connect, $query);
-
-// Get total number of cafes for pagination
-$total_query = "SELECT COUNT(*) as count FROM cafes $where_clause";
-$total_result = mysqli_query($connect, $total_query);
-$total_row = mysqli_fetch_assoc($total_result);
-$total_pages = ceil($total_row['count'] / $items_per_page);
 ?>
 
 <!DOCTYPE html>
@@ -42,70 +34,110 @@ $total_pages = ceil($total_row['count'] / $items_per_page);
     <?php include('../reusable/userDbNav.php'); ?>
     
     <div class="min-h-screen py-12 px-4 sm:px-6 lg:px-8">
-        <div class="max-w-7xl mx-auto">
-            <!-- Search Section -->
-            <div class="mb-8">
-                <form action="" method="GET" class="max-w-2xl mx-auto">
-                    <div class="flex gap-4">
-                        <input type="text" name="search" value="<?php echo htmlspecialchars($search); ?>"
-                            class="flex-1 rounded-md border-gray-300 shadow-sm focus:border-gray-500 focus:ring-gray-500"
-                            placeholder="Search cafes by name, location, or description...">
-                        <button type="submit"
-                            class="inline-flex justify-center rounded-md border border-transparent bg-gray-800 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2">
-                            Search
-                        </button>
-                    </div>
-                </form>
-            </div>
-
-            <!-- Results Section -->
-            <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-                <?php while ($cafe = mysqli_fetch_assoc($result)): ?>
-                    <div class="bg-white rounded-lg shadow-sm overflow-hidden">
-                        <div class="aspect-w-16 aspect-h-9">
-                            <img src="<?php echo htmlspecialchars($cafe['image_path']); ?>" 
-                                 alt="<?php echo htmlspecialchars($cafe['name']); ?>"
-                                 class="w-full h-48 object-cover">
+        <div class="max-w-7xl mx-auto gap-4 flex flex-row">
+            <!-- Sidebar -->
+            <?php include('../reusable/userSidebar.php'); ?>
+            
+            <div>
+                <!-- Points Summary -->
+                <div class="bg-white shadow-sm rounded-lg p-6 mb-8">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <h2 class="text-2xl font-semibold text-gray-900">Search Cafes</h2>
+                            <p class="mt-1 text-sm text-gray-500">Find and explore coffee shops near you</p>
                         </div>
-                        <div class="p-6">
-                            <h3 class="text-lg font-semibold text-gray-900 mb-2">
-                                <?php echo htmlspecialchars($cafe['name']); ?>
-                            </h3>
-                            <p class="text-sm text-gray-600 mb-4">
-                                <?php echo htmlspecialchars($cafe['address']); ?>
-                            </p>
-                            <div class="flex items-center justify-between">
-                                <div class="flex items-center">
-                                    <svg class="w-5 h-5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
-                                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
-                                    </svg>
-                                    <span class="ml-1 text-sm text-gray-600">
-                                        <?php echo number_format($cafe['rating'], 1); ?>
-                                    </span>
+                        <div class="text-right">
+                            <p class="text-sm text-gray-500">Total Points</p>
+                            <p class="text-3xl font-bold text-gray-900"><?php echo number_format($total_points); ?></p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Search Form -->
+                <div class="bg-white shadow-sm rounded-lg mb-8">
+                    <div class="p-6">
+                        <form method="GET" action="" class="space-y-4">
+                            <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                                <div>
+                                    <label for="search" class="block text-sm font-medium text-gray-700">Search</label>
+                                    <input type="text" name="search" id="search" 
+                                           class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-gray-500 focus:border-gray-500 sm:text-sm"
+                                           placeholder="Search by name or address"
+                                           value="<?php echo isset($_GET['search']) ? htmlspecialchars($_GET['search']) : ''; ?>">
                                 </div>
-                                <a href="cafeDetails.php?id=<?php echo $cafe['id']; ?>"
-                                   class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-white bg-gray-800 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500">
-                                    View Details
-                                </a>
+                                <div>
+                                    <label for="rating" class="block text-sm font-medium text-gray-700">Minimum Rating</label>
+                                    <select name="rating" id="rating" 
+                                            class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-gray-500 focus:border-gray-500 sm:text-sm rounded-md">
+                                        <option value="">Any Rating</option>
+                                        <option value="4" <?php echo isset($_GET['rating']) && $_GET['rating'] == '4' ? 'selected' : ''; ?>>4+ Stars</option>
+                                        <option value="3" <?php echo isset($_GET['rating']) && $_GET['rating'] == '3' ? 'selected' : ''; ?>>3+ Stars</option>
+                                        <option value="2" <?php echo isset($_GET['rating']) && $_GET['rating'] == '2' ? 'selected' : ''; ?>>2+ Stars</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label for="sort" class="block text-sm font-medium text-gray-700">Sort By</label>
+                                    <select name="sort" id="sort" 
+                                            class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-gray-500 focus:border-gray-500 sm:text-sm rounded-md">
+                                        <option value="name" <?php echo isset($_GET['sort']) && $_GET['sort'] == 'name' ? 'selected' : ''; ?>>Name</option>
+                                        <option value="rating" <?php echo isset($_GET['sort']) && $_GET['sort'] == 'rating' ? 'selected' : ''; ?>>Rating</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="flex justify-end">
+                                <button type="submit" 
+                                        class="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-gray-800 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500">
+                                    Search
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Results -->
+                <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+                    <?php while ($cafe = mysqli_fetch_assoc($result)): ?>
+                        <div class="bg-white shadow-sm rounded-lg overflow-hidden">
+                            <div class="relative h-48">
+                                <img src="<?php echo htmlspecialchars($cafe['image_path']); ?>" 
+                                     alt="<?php echo htmlspecialchars($cafe['name']); ?>"
+                                     class="w-full h-full object-cover">
+                                <div class="absolute top-4 right-4">
+                                    <div class="flex items-center bg-white bg-opacity-90 rounded-full px-3 py-1">
+                                        <svg class="h-5 w-5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
+                                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+                                        </svg>
+                                        <span class="ml-1 text-sm font-medium text-gray-900">
+                                            <?php echo number_format($cafe['rating'], 1); ?>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="p-6">
+                                <h3 class="text-lg font-medium text-gray-900">
+                                    <?php echo htmlspecialchars($cafe['name']); ?>
+                                </h3>
+                                <p class="mt-1 text-sm text-gray-500">
+                                    <?php echo htmlspecialchars($cafe['address']); ?>
+                                </p>
+                                <div class="mt-4 flex justify-between items-center">
+                                    <a href="cafeDetails.php?id=<?php echo $cafe['id']; ?>" 
+                                       class="text-sm font-medium text-gray-800 hover:text-gray-700">
+                                        View Details
+                                    </a>
+                                    <form method="POST" action="addToWishlist.php" class="inline">
+                                        <input type="hidden" name="cafe_id" value="<?php echo $cafe['id']; ?>">
+                                        <button type="submit" 
+                                                class="text-sm font-medium text-gray-800 hover:text-gray-700">
+                                            Add to Wishlist
+                                        </button>
+                                    </form>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                <?php endwhile; ?>
-            </div>
-
-            <!-- Pagination -->
-            <?php if ($total_pages > 1): ?>
-                <div class="mt-8 flex justify-center">
-                    <nav class="relative z-0 inline-flex rounded-md shadow-sm -space-x-px" aria-label="Pagination">
-                        <?php for ($i = 1; $i <= $total_pages; $i++): ?>
-                            <a href="?page=<?php echo $i; ?>&search=<?php echo urlencode($search); ?>"
-                               class="relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 <?php echo $page == $i ? 'z-10 bg-gray-50 border-gray-500' : ''; ?>">
-                                <?php echo $i; ?>
-                            </a>
-                        <?php endfor; ?>
-                    </nav>
+                    <?php endwhile; ?>
                 </div>
-            <?php endif; ?>
+            </div>
         </div>
     </div>
 
