@@ -68,8 +68,13 @@ $recent_reviews = $reviews_stmt->get_result();
 <?php include('../reusable/userDbNav.php'); ?>
 
 <div class="min-h-screen py-12 px-4 sm:px-6 lg:px-8">
-    <div class="max-w-7xl mx-auto">
+
+
+    
+    <div class="max-w-7xl mx-auto gap-4 flex flex-row">
         <!-- Welcome Section -->
+        <?php include('../reusable/userSidebar.php'); ?>
+        <div>
         <div class="bg-white shadow-sm rounded-lg p-6 mb-8">
             <div class="flex items-center justify-between">
                 <div>
@@ -216,6 +221,7 @@ $recent_reviews = $reviews_stmt->get_result();
                 </div>
             </div>
         </div>
+    </div>
     </div>
 </div>
 

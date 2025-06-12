@@ -13,52 +13,7 @@ if (session_status() === PHP_SESSION_NONE) {
                         <img class="h-8 w-auto" src="/capstone/CoffeePass/images/Logo.svg" alt="cafePass">
                     </a>
                 </div>
-                <div class="hidden sm:ml-6 sm:block">
-                    <div class="flex space-x-4">
-                        <?php if (isset($_SESSION['id'])): // Only for logged-in users ?>
-                            <a href="/capstone/CoffeePass/users/userDashboard.php" 
-                               class="rounded-md px-3 py-2 text-sm font-medium text-gray-900 hover:bg-gray-700 hover:text-white transition duration-150 ease-in-out">
-                               Dashboard
-                            </a>
-                            <a href="/capstone/CoffeePass/users/showQR.php" 
-                               class="rounded-md px-3 py-2 text-sm font-medium text-gray-900 hover:bg-gray-700 hover:text-white transition duration-150 ease-in-out">
-                               Show QR Code
-                            </a>
-                            <a href="/capstone/CoffeePass/users/searchCafes.php" 
-                               class="rounded-md px-3 py-2 text-sm font-medium text-gray-900 hover:bg-gray-700 hover:text-white transition duration-150 ease-in-out">
-                               Search Cafes             
-                            </a>
-                           
-                            <a href="/capstone/CoffeePass/users/reviewStores.php" 
-                               class="rounded-md px-3 py-2 text-sm font-medium text-gray-900 hover:bg-gray-700 hover:text-white transition duration-150 ease-in-out">
-                               Review Stores           
-                            </a>
-                            <a href="/capstone/CoffeePass/users/visited.php" 
-                               class="rounded-md px-3 py-2 text-sm font-medium text-gray-900 hover:bg-gray-700 hover:text-white transition duration-150 ease-in-out">
-                               Visited           
-                            </a>
-                            <a href="/capstone/CoffeePass/users/wishList.php" 
-                               class="rounded-md px-3 py-2 text-sm font-medium text-gray-900 hover:bg-gray-700 hover:text-white transition duration-150 ease-in-out">
-                               Wish List          
-                            </a>
-                           
-                            <a href="/capstone/CoffeePass/users/events.php" 
-                               class="rounded-md px-3 py-2 text-sm font-medium text-gray-900 hover:bg-gray-700 hover:text-white transition duration-150 ease-in-out">
-                               Events        
-                            </a>
-
-
-
-                            <?php if ($_SESSION['is_admin'] === 'Yes'): // Only for admins ?>
-                                <a href="/capstone/CoffeePass/admin/adminDashboard.php" 
-                                   class="rounded-md px-3 py-2 text-sm font-medium text-gray-900 hover:bg-gray-700 hover:text-white transition duration-150 ease-in-out">
-                                    Admin Dashboard
-                                </a>
-                            <?php endif; ?>
-                        <?php endif; ?>
-                    </div>
-                </div>
-            </div>
+             
             <div class="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
                 <div class="hidden sm:flex sm:space-x-4">
                     <?php if (isset($_SESSION['id'])): ?>

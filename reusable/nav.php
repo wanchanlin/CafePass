@@ -34,10 +34,10 @@ $current_page = basename($_SERVER['PHP_SELF']);
                 <div class="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
                     <div class="hidden sm:flex sm:space-x-4">
                         <button class="rounded-md px-3 py-2 text-sm font-medium text-gray-900 hover:bg-gray-700 hover:text-white">
-                            <a href="/capstone/CoffeePass/login.php"> Login </a>
+                            <a href="/capstone/CoffeePass/public/login.php"> Login </a>
                         </button>
                         <button class="rounded-md px-3 py-2 text-sm font-medium text-gray-900 hover:bg-gray-700 hover:text-white"> 
-                            <a href="/capstone/CoffeePass/public/register.php"> Sign Up </a>
+                            <a href="/capstone/CoffeePass/public/register.php"> Sign Up </a> 
                         </button>
                     </div>
                     <!-- Mobile menu button -->
