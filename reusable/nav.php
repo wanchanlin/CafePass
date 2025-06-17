@@ -22,7 +22,7 @@ $base_path = '/capstone/CoffeePass';
                     <div class="hidden sm:ml-6 sm:block">
                         <div class="flex space-x-4">
                             <a href="<?php echo $base_path; ?>/index.php" 
-                               class="rounded-md px-3 py-2 text-sm font-medium text-gray-900 hover:bg-gray-700 hover:text-white <?php echo $current_page === 'index.php' ? 'bg-gray-700 text-white' : ''; ?>">
+                               class="rounded-md px-3 py-2 text-sm font-medium text-gray-900 hover:bg-gray-700 hover:text-white <?php echo $current_page === 'index.php' ? 'button-underline' : ''; ?>">
                                 HOME
                             </a>
                             <a href="<?php echo $base_path; ?>/explore-cafes.php" 
@@ -38,15 +38,15 @@ $base_path = '/capstone/CoffeePass';
                 </div>
                 <div class="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
                     <div class="hidden sm:flex sm:space-x-4">
-                        <a href="<?php echo $base_path; ?>/public/login.php" 
+                        <button class="rounded-md px-3 py-2 text-sm font-medium"><a href="<?php echo $base_path; ?>/public/login.php" 
                            class="rounded-md px-3 py-2 text-sm font-medium text-gray-900 hover:bg-gray-700 hover:text-white">
                             Login
                         </a>
-                        <a href="<?php echo $base_path; ?>/public/register.php" 
+                         <button class="rounded-md px-3 py-2 text-sm font-medium"><a href="<?php echo $base_path; ?>/public/register.php" 
                            class="rounded-md px-3 py-2 text-sm font-medium text-gray-900 hover:bg-gray-700 hover:text-white">
                             Sign Up
                         </a>
-                    </div>
+                    </div></button>
                     <!-- Mobile menu button -->
                     <button type="button"
                         class="relative inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-700 hover:text-white focus:ring-2 focus:ring-white focus:outline-hidden focus:ring-inset sm:hidden"
