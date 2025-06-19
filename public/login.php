@@ -5,11 +5,16 @@ require_once('../reusable/connection.php');
 
 // Handle form submission
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $email = mysqli_real_escape_string($connect, $_POST['email']);
+    global $conn;
+    if (!$conn) {
+        die("Database connection failed");
+    }
+
+    $email = mysqli_real_escape_string($conn, $_POST['email']);
     $password = $_POST['password'];
 
     $query = "SELECT * FROM users WHERE email = ?";
-    $stmt = $connect->prepare($query);
+    $stmt = $conn->prepare($query);
     $stmt->bind_param("s", $email);
     $stmt->execute();
     $result = $stmt->get_result();
@@ -21,9 +26,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $_SESSION['first'] = $user['first'];
             $_SESSION['last'] = $user['last'];
             $_SESSION['email'] = $user['email'];
+            $_SESSION['role'] = $user['role'];
             $_SESSION['is_admin'] = $user['is_admin'];
 
-            header("Location: ../users/userDashboard.php");
+            // Redirect based on user role
+            if ($user['role'] === 'cafe_owner') {
+                header("Location: ../cafeshops/cafedashboard.php");
+            } else {
+                header("Location: ../users/userDashboard.php");
+            }
             exit();
         } else {
             $_SESSION['error'] = "Invalid password.";
