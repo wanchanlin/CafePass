@@ -137,7 +137,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
                 <div class="flex items-center justify-between pt-4">
                     <button type="submit" 
-                        class="w-full bg-primary-green text-white px-4 py-2 rounded-md hover:bg-secondary-green transition-colors duration-200">
+                        class="w-full bg-primary-green  px-4 py-2 rounded-md hover:bg-secondary-green ">
                         Create Account
                     </button>
                 </div>
@@ -145,7 +145,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 <div class="text-center mt-4">
                     <p class="text-sm text-gray-600">
                         Already have an account? 
-                        <a href="../login.php" class="text-primary-green hover:text-secondary-green font-medium">
+                        <a href="login.php" class="text-primary-green hover:text-secondary-green font-medium">
                             Sign in
                         </a>
                     </p>
