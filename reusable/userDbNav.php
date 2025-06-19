@@ -44,7 +44,7 @@ if (session_status() === PHP_SESSION_NONE) {
                     </a>
 
                     <button class="rounded-md px-4 py-2 text-sm font-medium text-gray-900 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 transition duration-150 ease-in-out">
-                        <a href="/capstone/CoffeePass/users/logout.php">
+                        <a href="/cafePass/users/logout.php">
                             Logout
                         </a>
                     </button>
@@ -113,7 +113,7 @@ if (session_status() === PHP_SESSION_NONE) {
                     </a>
                 <?php endif; ?>
                 <button>
-                    <a href="/capstone/CoffeePass/users/logout.php" 
+                    <a href="/cafePass/users/logout.php" 
                        class="block rounded-md px-3 py-2 text-base font-medium text-gray-900 hover:bg-gray-700 hover:text-white transition duration-150 ease-in-out">
                         Logout
                     </a>
