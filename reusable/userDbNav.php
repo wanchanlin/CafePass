@@ -2,7 +2,13 @@
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
+// Get the current page name for active state
+$current_page = basename($_SERVER['PHP_SELF']);
+
+// Define base path
+$base_path = '/cafepass';
 ?>
+
 <!-- Add Font Awesome CDN -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
@@ -12,7 +18,7 @@ if (session_status() === PHP_SESSION_NONE) {
         <div class="relative flex h-16 items-center justify-between">
             <!-- Logo Section -->
             <div class="flex-shrink-0">
-                <a href="/capstone/CoffeePass/index.php">
+                <a href="<?php echo $base_path; ?>/index.php">
                     <img class="h-8 w-auto" src="/capstone/CoffeePass/images/Logo.svg" alt="cafePass">
                 </a>
             </div>
@@ -44,12 +50,12 @@ if (session_status() === PHP_SESSION_NONE) {
                     </a>
 
                     <button class="rounded-md px-4 py-2 text-sm font-medium text-gray-900 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 transition duration-150 ease-in-out">
-                        <a href="/cafePass/users/logout.php">
+                        <a href="<?php echo $base_path; ?>/users/logout.php">
                             Logout
                         </a>
                     </button>
                 <?php else: ?>
-                    <a href="/capstone/CoffeePass/login.php" 
+                    <a href="<?php echo $base_path; ?>/login.php" 
                        class="rounded-md px-3 py-2 text-sm font-medium text-gray-900 hover:bg-gray-700 hover:text-white transition duration-150 ease-in-out">
                         Login
                     </a>
@@ -113,17 +119,17 @@ if (session_status() === PHP_SESSION_NONE) {
                     </a>
                 <?php endif; ?>
                 <button>
-                    <a href="/cafePass/users/logout.php" 
+                    <a href="<?php echo $base_path; ?>/users/logout.php" 
                        class="block rounded-md px-3 py-2 text-base font-medium text-gray-900 hover:bg-gray-700 hover:text-white transition duration-150 ease-in-out">
                         Logout
                     </a>
                 </button>
             <?php else: ?>
-                <a href="/capstone/CoffeePass/login.php" 
+                <a href="<?php echo $base_path; ?>/login.php" 
                    class="block rounded-md px-3 py-2 text-base font-medium text-gray-900 hover:bg-gray-700 hover:text-white transition duration-150 ease-in-out">
                     Login
                 </a>
-                <a href="/capstone/CoffeePass/public/register.php" 
+                <a href="<?php echo $base_path; ?>/public/register.php" 
                    class="block rounded-md px-3 py-2 text-base font-medium text-gray-900 hover:bg-gray-700 hover:text-white transition duration-150 ease-in-out">
                     Sign Up
                 </a>
