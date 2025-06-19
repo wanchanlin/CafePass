@@ -7,7 +7,7 @@ if (session_status() === PHP_SESSION_NONE) {
 $current_page = basename($_SERVER['PHP_SELF']);
 
 // Define base path
-$base_path = '/capstone/CoffeePass';
+$base_path = '/cafepass';
 ?>
 <!-- nav section -->
     <nav class="bg-white shadow-md">
@@ -16,7 +16,7 @@ $base_path = '/capstone/CoffeePass';
                 <div class="flex flex-1 items-center justify-between sm:items-stretch sm:justify-start">
                     <div class="flex shrink-0 items-center">
                         <a href="<?php echo $base_path; ?>/index.php">
-                            <img class="h-[360px] w-auto object-contain" src="<?php echo $base_path; ?>/images/Logo.svg" alt="Coffee Pass">
+                            <img class="h-[360px] w-auto object-contain" src="<?php echo $base_path; ?>../images/Logo.svg" alt="Coffee Pass">
                         </a>
                     </div>
                     <div class="hidden sm:ml-6 sm:block">
@@ -39,11 +39,11 @@ $base_path = '/capstone/CoffeePass';
                 <div class="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
                     <div class="hidden sm:flex sm:space-x-4">
                         <button class="rounded-md px-3 py-2 text-sm font-medium"><a href="<?php echo $base_path; ?>/public/login.php" 
-                           class="rounded-md px-3 py-2 text-sm font-medium text-gray-900 hover:bg-gray-700 hover:text-white">
+                           class="rounded-md px-3 py-2 text-sm font-medium text-gray-900 ">
                             Login
                         </a>
                          <button class="rounded-md px-3 py-2 text-sm font-medium"><a href="<?php echo $base_path; ?>/public/register.php" 
-                           class="rounded-md px-3 py-2 text-sm font-medium text-gray-900 hover:bg-gray-700 hover:text-white">
+                           class="rounded-md px-3 py-2 text-sm font-medium text-gray-900 ">
                             Sign Up
                         </a>
                     </div></button>

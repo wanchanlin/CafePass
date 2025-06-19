@@ -139,20 +139,12 @@
       </section>
     <!-- how it works section end -->
 
-    <section class="bg-white py-24 sm:py-32">
+    <section class=" py-24 sm:py-32">
         <h2 class="text-center tracking-tight text-pretty text-gray-900 sm:text-5xl">
             Who It's For?</h2>
        
-            <div class="relative isolate overflow-hidden bg-white px-6 py-24 sm:py-32 lg:overflow-visible lg:px-0">
-                <div class="absolute inset-0 -z-10 overflow-hidden">
-                  <svg class="absolute top-0 left-[max(50%,25rem)] h-256 w-512 -translate-x-1/2 mask-[radial-gradient(64rem_64rem_at_top,white,transparent)] stroke-gray-200" aria-hidden="true">
-                    <defs>
-                      <pattern id="e813992c-7d03-4cc4-a2bd-151760b470a0" width="200" height="200" x="50%" y="-1" patternUnits="userSpaceOnUse">
-                        <path d="M100 200V.5M.5 .5H200" fill="none" />
-                      </pattern>
-                    </defs>
-                  </svg>
-                </div>
+            <div class="relative isolate overflow-hidden  px-6 py-24 sm:py-32 lg:overflow-visible lg:px-0">
+               
                 <div class="mx-auto grid max-w-2xl grid-cols-1 gap-x-8 gap-y-16 lg:mx-0 lg:max-w-none lg:grid-cols-2 lg:items-start lg:gap-y-10">
                   <div class="lg:col-span-2 lg:col-start-1 lg:row-start-1 lg:mx-auto lg:grid lg:w-full lg:max-w-7xl lg:grid-cols-2 lg:gap-x-8 lg:px-8">
                     <div class="lg:col-start-2 lg:pr-4">
@@ -162,13 +154,14 @@
                         <p class="mt-6 text-xl/8 text-gray-700">Discover new cafés, earn rewards, and track your coffee journey.</p>
                       </div>
                     </div>
-                  </div>
-                  <div class="-mt-12 -ml-12 p-12 lg:sticky lg:top-4 lg:col-start-1 lg:row-span-2 lg:row-start-1 lg:overflow-hidden">
+                    <div class="-mt-12 -ml-auto p-12 lg:sticky lg:top-4 lg:col-start-1 lg:row-span-2 lg:row-start-1 lg:overflow-hidden">
                     <img class="h-[360px] w-auto object-contain" src="images/coffeedrinker.png" alt="">
                   </div>
+                  </div>
+                  
                 </div>
             </div>
-            <div class="relative isolate overflow-hidden bg-white px-6 py-24 sm:py-32 lg:overflow-visible lg:px-0">
+            <div class="relative isolate overflow-hidden px-6 py-24 sm:py-32 lg:overflow-visible lg:px-0">
                 <div class="absolute inset-0 -z-10 overflow-hidden">
                   <svg class="absolute top-0 left-[max(50%,25rem)] h-256 w-512 -translate-x-1/2 mask-[radial-gradient(64rem_64rem_at_top,white,transparent)] stroke-gray-200" aria-hidden="true">
                     <defs>
@@ -187,10 +180,11 @@
                         <p class="mt-6 text-xl/8 text-gray-700">Understand your customers, boost loyalty, and grow your business with our tools.</p>
                       </div>
                     </div>
-                  </div>
-                  <div class="-mt-12 -ml-12 p-12 lg:sticky lg:top-4 lg:col-start-2 lg:row-span-2 lg:row-start-1 lg:overflow-hidden">
+                     <div class="-mt-12 -ml-12 p-12 lg:sticky lg:top-4 lg:col-start-2 lg:row-span-2 lg:row-start-1 lg:overflow-hidden">
                     <img class="h-[360px] w-auto object-contain" src="images/coffeeStore.png" alt="">
                   </div>
+                  </div>
+                 
                 </div>
             </div>
               
