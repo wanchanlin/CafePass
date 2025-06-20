@@ -53,6 +53,7 @@ $events = $events_result->fetch_all(MYSQLI_ASSOC);
     <title>Create Events - CoffeePass</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="../styles/cafe.css">
 </head>
 <body class="bg-gray-100">
     <?php include '../reusable/userDbNav.php'; ?>
@@ -176,5 +177,6 @@ $events = $events_result->fetch_all(MYSQLI_ASSOC);
         </div>
         </div>
     </div>
+    <?php include '../reusable/footer.php'; ?>
 </body>
 </html> 

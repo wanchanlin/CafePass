@@ -58,6 +58,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['qr_data'])) {
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <script src="https://unpkg.com/html5-qrcode"></script>
+    <link rel="stylesheet" href="../styles/cafe.css">
 </head>
 <body class="bg-gray-100">
     <?php include '../reusable/userDbNav.php'; ?>
@@ -91,6 +92,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['qr_data'])) {
         </div>
     </div>
     </div>
+    <?php include '../reusable/footer.php'; ?>
 
     <script>
         function onScanSuccess(decodedText, decodedResult) {
