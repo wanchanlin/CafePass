@@ -11,7 +11,12 @@ include('../reusable/functions.php');
 // Get user's total points
 $user_id = $_SESSION['id'];
 $points_query = "SELECT SUM(points_earned) as total_points FROM user_visits WHERE user_id = ?";
-$points_stmt = $connect->prepare($points_query);
+global $conn;
+if (!$conn) {
+    die("Database connection failed");
+}
+
+$points_stmt = $conn->prepare($points_query);
 $points_stmt->bind_param("i", $user_id);
 $points_stmt->execute();
 $total_points = $points_stmt->get_result()->fetch_assoc()['total_points'] ?? 0;
@@ -22,7 +27,10 @@ if (isset($_POST['remove_from_wishlist'])) {
     $user_id = $_SESSION['id'];
     
     $delete_query = "DELETE FROM wishlist WHERE user_id = ? AND cafe_id = ?";
-    $delete_stmt = $connect->prepare($delete_query);
+    $delete_stmt = $conn->prepare($delete_query);
+if (!$delete_stmt) {
+    die("Prepare failed: (" . $conn->errno . ") " . $conn->error);
+}
     $delete_stmt->bind_param("ii", $user_id, $cafe_id);
     $delete_stmt->execute();
     
@@ -37,7 +45,10 @@ $query = "SELECT c.*, w.date_added
           INNER JOIN wishlist w ON c.id = w.cafe_id 
           WHERE w.user_id = ? 
           ORDER BY w.date_added DESC";
-$stmt = $connect->prepare($query);
+$stmt = $conn->prepare($query);
+if (!$stmt) {
+    die("Prepare failed: (" . $conn->errno . ") " . $conn->error);
+}
 $stmt->bind_param("i", $user_id);
 $stmt->execute();
 $wishlist = $stmt->get_result();
