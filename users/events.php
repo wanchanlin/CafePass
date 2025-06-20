@@ -11,7 +11,12 @@ include('../reusable/functions.php');
 // Get user's total points
 $user_id = $_SESSION['id'];
 $points_query = "SELECT SUM(points_earned) as total_points FROM user_visits WHERE user_id = ?";
-$points_stmt = $connect->prepare($points_query);
+global $conn;
+if (!$conn) {
+    die("Database connection failed");
+}
+
+$points_stmt = $conn->prepare($points_query);
 $points_stmt->bind_param("i", $user_id);
 $points_stmt->execute();
 $total_points = $points_stmt->get_result()->fetch_assoc()['total_points'] ?? 0;
@@ -22,7 +27,15 @@ $query = "SELECT e.*, c.name as cafe_name, c.address, c.image_path
           INNER JOIN cafes c ON e.cafe_id = c.id 
           WHERE e.event_date >= CURDATE() 
           ORDER BY e.event_date ASC";
-$result = mysqli_query($connect, $query);
+$stmt = $conn->prepare($query);
+if (!$stmt) {
+    die("Prepare failed: (" . $conn->errno . ") " . $conn->error);
+}
+$stmt->execute();
+$result = $stmt->get_result();
+if (!$result) {
+    die("Query failed: (" . $conn->errno . ") " . $conn->error);
+}
 ?>
 
 <!DOCTYPE html>

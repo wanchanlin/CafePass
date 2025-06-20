@@ -19,8 +19,11 @@ function isStrongPassword($password) {
 
 // Function to sanitize input
 function sanitizeInput($data) {
-    global $connect;
-    return mysqli_real_escape_string($connect, trim($data));
+    global $conn;
+    if (!$conn) {
+        die("Database connection failed");
+    }
+    return mysqli_real_escape_string($conn, trim($data));
 }
 
 // Handle form submission
@@ -47,7 +50,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
 
     // Check if email already exists
-    $checkEmail = $connect->prepare("SELECT id FROM users WHERE email = ?");
+    $checkEmail = $conn->prepare("SELECT id FROM users WHERE email = ?");
     $checkEmail->bind_param("s", $email);
     $checkEmail->execute();
     $result = $checkEmail->get_result();
@@ -63,7 +66,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $dateadded = date('Y-m-d H:i:s');
 
         $query = "INSERT INTO users (first, last, email, password, is_admin, dateAdded) VALUES (?, ?, ?, ?, ?, ?)";
-        $stmt = $connect->prepare($query);
+        $stmt = $conn->prepare($query);
         $stmt->bind_param("ssssis", $first, $last, $email, $hashedPassword, $is_admin, $dateadded); // Changed 'ssssss' to 'ssssis' for integer
         
         if ($stmt->execute()) {

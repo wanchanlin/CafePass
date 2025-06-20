@@ -11,7 +11,12 @@ include('../reusable/functions.php');
 // Get user's total points
 $user_id = $_SESSION['id'];
 $points_query = "SELECT SUM(points_earned) as total_points FROM user_visits WHERE user_id = ?";
-$points_stmt = $connect->prepare($points_query);
+global $conn;
+if (!$conn) {
+    die("Database connection failed");
+}
+
+$points_stmt = $conn->prepare($points_query);
 $points_stmt->bind_param("i", $user_id);
 $points_stmt->execute();
 $total_points = $points_stmt->get_result()->fetch_assoc()['total_points'] ?? 0;
@@ -25,7 +30,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit_review'])) {
 
     // Check if user has already reviewed this cafe
     $check_query = "SELECT id FROM reviews WHERE user_id = ? AND cafe_id = ?";
-    $check_stmt = $connect->prepare($check_query);
+    $check_stmt = $conn->prepare($check_query);
+if (!$check_stmt) {
+    die("Prepare failed: (" . $conn->errno . ") " . $conn->error);
+}
     $check_stmt->bind_param("ii", $user_id, $cafe_id);
     $check_stmt->execute();
     $check_result = $check_stmt->get_result();
@@ -59,7 +67,10 @@ $query = "SELECT r.*, c.name as cafe_name, c.address, c.image_path
           INNER JOIN cafes c ON r.cafe_id = c.id 
           WHERE r.user_id = ? 
           ORDER BY r.review_date DESC";
-$stmt = $connect->prepare($query);
+$stmt = $conn->prepare($query);
+if (!$stmt) {
+    die("Prepare failed: (" . $conn->errno . ") " . $conn->error);
+}
 $stmt->bind_param("i", $user_id);
 $stmt->execute();
 $result = $stmt->get_result();
@@ -70,7 +81,10 @@ $visited_query = "SELECT DISTINCT c.*
                  INNER JOIN user_visits v ON c.id = v.cafe_id 
                  WHERE v.user_id = ? 
                  ORDER BY c.name";
-$visited_stmt = $connect->prepare($visited_query);
+$visited_stmt = $conn->prepare($visited_query);
+if (!$visited_stmt) {
+    die("Prepare failed: (" . $conn->errno . ") " . $conn->error);
+}
 $visited_stmt->bind_param("i", $user_id);
 $visited_stmt->execute();
 $visited_result = $visited_stmt->get_result();
