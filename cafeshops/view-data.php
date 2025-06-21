@@ -83,9 +83,7 @@ $events = $events_result->fetch_all(MYSQLI_ASSOC);
         <div class="bg-white rounded-lg shadow-sm p-6">
             <div class="flex items-center justify-between mb-6">
                 <h1 class="text-2xl font-bold text-gray-900">Analytics & Reports</h1>
-                <a href="dashboard.php" class="text-blue-600 hover:text-blue-800">
-                    <i class="fas fa-arrow-left mr-2"></i>Back to Dashboard
-                </a>
+                
             </div>
 
             <!-- Summary Cards -->

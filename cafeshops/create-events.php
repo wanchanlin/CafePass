@@ -64,9 +64,7 @@ $events = $events_result->fetch_all(MYSQLI_ASSOC);
         <div class="bg-white rounded-lg shadow-sm p-6">
             <div class="flex items-center justify-between mb-6">
                 <h1 class="text-2xl font-bold text-gray-900">Create Events</h1>
-                <a href="dashboard.php" class="text-blue-600 hover:text-blue-800">
-                    <i class="fas fa-arrow-left mr-2"></i>Back to Dashboard
-                </a>
+                
             </div>
 
             <?php if (isset($success_message)): ?>
@@ -136,7 +134,7 @@ $events = $events_result->fetch_all(MYSQLI_ASSOC);
 
                 <!-- Submit Button -->
                 <div class="flex justify-end">
-                    <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
+                    <button type="submit" class=" px-4 py-2 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
                         Create Event
                     </button>
                 </div>
