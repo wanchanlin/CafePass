@@ -11,12 +11,19 @@ include('../reusable/functions.php');
 // Get user's total points
 $user_id = $_SESSION['id'];
 $points_query = "SELECT SUM(points_earned) as total_points FROM user_visits WHERE user_id = ?";
-global $conn;
-if (!$conn) {
-    die("Database connection failed");
+
+// Prepare and execute points query
+$points_stmt = $conn->prepare($points_query);
+if (!$points_stmt) {
+    die("Prepare failed: (" . $conn->errno . ") " . $conn->error);
 }
 
-$points_stmt = $conn->prepare($points_query);
+// Handle success/error messages
+$success = isset($_GET['success']) ? true : false;
+$error = isset($_GET['error']) ? true : false;
+$already_added = isset($_GET['already_added']) ? true : false;
+
+// Execute points query
 $points_stmt->bind_param("i", $user_id);
 $points_stmt->execute();
 $total_points = $points_stmt->get_result()->fetch_assoc()['total_points'] ?? 0;
@@ -99,7 +106,7 @@ if (!$result) {
                             </div>
                             <div class="flex justify-end">
                                 <button type="submit" 
-                                        class="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-gray-800 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500">
+                                        class="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium">
                                     Search
                                 </button>
                             </div>
@@ -107,12 +114,58 @@ if (!$result) {
                     </div>
                 </div>
 
+                <!-- Messages -->
+                <?php if ($success): ?>
+                    <div class="bg-green-50 border-l-4 border-green-400 p-4 mb-4">
+                        <div class="flex">
+                            <div class="flex-shrink-0">
+                                <svg class="h-5 w-5 text-green-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+                                </svg>
+                            </div>
+                            <div class="ml-3">
+                                <p class="text-sm text-green-700">Cafe added to your wishlist successfully!</p>
+                            </div>
+                        </div>
+                    </div>
+                <?php endif; ?>
+                
+                <?php if ($error): ?>
+                    <div class="bg-red-50 border-l-4 border-red-400 p-4 mb-4">
+                        <div class="flex">
+                            <div class="flex-shrink-0">
+                                <svg class="h-5 w-5 text-red-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd" />
+                                </svg>
+                            </div>
+                            <div class="ml-3">
+                                <p class="text-sm text-red-700">Failed to add cafe to wishlist. Please try again.</p>
+                            </div>
+                        </div>
+                    </div>
+                <?php endif; ?>
+                
+                <?php if ($already_added): ?>
+                    <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 mb-4">
+                        <div class="flex">
+                            <div class="flex-shrink-0">
+                                <svg class="h-5 w-5 text-yellow-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                                    <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd" />
+                                </svg>
+                            </div>
+                            <div class="ml-3">
+                                <p class="text-sm text-yellow-700">This cafe is already in your wishlist.</p>
+                            </div>
+                        </div>
+                    </div>
+                <?php endif; ?>
+                
                 <!-- Results -->
                 <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
                     <?php while ($cafe = mysqli_fetch_assoc($result)): ?>
                         <div class="bg-white shadow-sm rounded-lg overflow-hidden">
                             <div class="relative h-48">
-                                <img src="<?php echo htmlspecialchars($cafe['image_path']); ?>" 
+                                <img src="../<?php echo($cafe['image_path']); ?>" 
                                      alt="<?php echo htmlspecialchars($cafe['name']); ?>"
                                      class="w-full h-full object-cover">
                                 <div class="absolute top-4 right-4">
@@ -141,7 +194,10 @@ if (!$result) {
                                     <form method="POST" action="addToWishlist.php" class="inline">
                                         <input type="hidden" name="cafe_id" value="<?php echo $cafe['id']; ?>">
                                         <button type="submit" 
-                                                class="text-sm font-medium text-gray-800 hover:text-gray-700">
+                                                class="inline-flex items-center px-3 py-1.5 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500">
+                                            <svg class="-ml-1 mr-2 h-4 w-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v14l-5-2.5L5 21V5z"/>
+                                            </svg>
                                             Add to Wishlist
                                         </button>
                                     </form>

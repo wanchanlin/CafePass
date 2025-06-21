@@ -36,16 +36,16 @@ $user = $result->fetch_assoc();
 if (!$user || !$user['qr_code']) {
     // Generate unique QR code data
     $qr_data = "user_" . $user_id . "_" . time();
-    
+
     // Update user's QR code in database
     $update_query = "UPDATE users SET qr_code = ? WHERE id = ?";
     $update_stmt = $conn->prepare($update_query);
-if (!$update_stmt) {
-    die("Prepare failed: (" . $conn->errno . ") " . $conn->error);
-}
+    if (!$update_stmt) {
+        die("Prepare failed: (" . $conn->errno . ") " . $conn->error);
+    }
     $update_stmt->bind_param("si", $qr_data, $user_id);
     $update_stmt->execute();
-    
+
     // Fetch the updated user data
     $stmt->execute();
     $result = $stmt->get_result();
@@ -76,6 +76,7 @@ $recent_checkins = $checkins;
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -85,14 +86,15 @@ $recent_checkins = $checkins;
     <!-- Include QR Code library -->
     <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.1/build/qrcode.min.js"></script>
 </head>
+
 <body class="bg-gray-50">
     <?php include('../reusable/userDbNav.php'); ?>
-    
+
     <div class="min-h-screen py-12 px-4 sm:px-6 lg:px-8">
         <div class="max-w-7xl mx-auto gap-4 flex flex-row">
             <!-- Sidebar -->
             <?php include('../reusable/userSidebar.php'); ?>
-            
+
             <div>
                 <!-- Points Summary -->
                 <div class="bg-white shadow-sm rounded-lg p-6 mb-8">
@@ -114,20 +116,23 @@ $recent_checkins = $checkins;
                         <div class="max-w-md mx-auto text-center">
                             <?php if ($user['qr_code']): ?>
                                 <div class="bg-white p-4 rounded-lg shadow-sm inline-block">
-                                    <img src="<?php echo htmlspecialchars($user['qr_code']); ?>" 
-                                         alt="User QR Code"
-                                         class="w-64 h-64">
+                                    <img src="../images/users/<?php echo htmlspecialchars($user['qr_code']); ?>.png"
+                                        alt="User QR Code"
+                                        class="w-64 h-64">
                                 </div>
                                 <p class="mt-4 text-sm text-gray-500">
                                     Show this QR code to cafe staff to earn points for your visit.
                                 </p>
                                 <div class="mt-6">
-                                    <a href="<?php echo htmlspecialchars($user['qr_code']); ?>" 
-                                       download="cafe-pass-qr.png"
-                                       class="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-gray-800 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500">
-                                        Download QR Code
-                                    </a>
+                                    <button type="button" class="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium">
+
+
+                                        <a href="../images/users/<?php echo htmlspecialchars($user['qr_code']); ?>.png"
+                                            download="cafe-pass-qr.png">
+                                            Download QR Code
+                                        </a>
                                 </div>
+                                </button>
                             <?php else: ?>
                                 <div class="text-center py-12">
                                     <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -214,6 +219,7 @@ $recent_checkins = $checkins;
             link.click();
         }
     </script>
-  
+
 </body>
-</html> 
+
+</html>
